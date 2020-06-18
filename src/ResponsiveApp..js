@@ -15,12 +15,15 @@ import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
+import { useAuth0 } from './react-auth0-spa';
 import { Router, Route, Switch } from "react-router-dom";
 import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
+import ProfileMenu from './components/navigation/ProfileMenu';
 
 const drawerWidth = 240;
 
@@ -39,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
         },
+
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -55,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    navbar: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    }
 }));
 
 function ResponsiveDrawer(props) {
@@ -62,6 +70,7 @@ function ResponsiveDrawer(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -97,7 +106,7 @@ function ResponsiveDrawer(props) {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
+                <Toolbar className={classes.navbar}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -110,6 +119,7 @@ function ResponsiveDrawer(props) {
                     <Typography variant="h4" noWrap>
                         Health Nut
                      </Typography>
+                    {(isAuthenticated ? <ProfileMenu /> : <Button variant="contained" onClick={() => loginWithRedirect({})} color="primary">Log In</Button>)}
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
@@ -178,7 +188,7 @@ function ResponsiveDrawer(props) {
                     accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
                 </Typography>
             </main>
-        </div>
+        </div >
     );
 }
 
