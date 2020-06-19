@@ -73,9 +73,9 @@ function ResponsiveDrawer(props) {
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
     const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
+    const [showProfileSetup, setShowProfileSetup] = useState(true);
     // const properties = {
     //     size: 250,
     //     progress: 95,
@@ -170,19 +170,17 @@ function ResponsiveDrawer(props) {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <div>
+                    {showProfileSetup ? <ProfileSetUp /> : <></>}
                     <Router history={history}>
                         <header>
-
                         </header>
                         <Switch>
                             <Route path="/" exact />
-                            <PrivateRoute path='/setup' component={ProfileSetUp} />
+                            {/* <PrivateRoute path='/setup' component={ProfileSetUp} /> */}
                             <PrivateRoute path="/profile" component={Profile} />
                         </Switch>
                     </Router>
                 </div>
-
-                <ProgressBarContainer />
                 <Typography paragraph>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                     ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum

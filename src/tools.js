@@ -15,18 +15,14 @@ export function calculateBMR(gender, weight, height, age) {
 
 export const calculateDailyCalorieNeeds = (bmr, activityFactor) => bmr * activityFactor;
 
-export function calculateCalorieLimit(fitnessPlan, gender, weight, height, age, activityFactor) {
-    const bmr = calculateBMR(gender, weight, height, age)
-    console.log('bmr', bmr);
-    const dailyCalorieNeeds = calculateDailyCalorieNeeds(bmr, parseInt(activityFactor))
-    console.log('dailyCal', dailyCalorieNeeds);
+export function calculateCalorieLimit(dailyCalorieNeeds, fitnessPlan, gender) {
     let weeklyThresh = dailyCalorieNeeds * 7
     if (fitnessPlan === 'loose-fast') {
         weeklyThresh -= 7000
     } else if (fitnessPlan === 'loose') {
         weeklyThresh -= 3500
     } else if (fitnessPlan === 'maintain') {
-        weeklyThresh = weeklyThresh
+        console.log('here')
     } else if (fitnessPlan === 'gain') {
         weeklyThresh += 3500
     }

@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { calculateCalorieLimit, calculateBMR, calculateDailyCalorieNeeds } from '../../tools';
-import { useSelector } from "react-redux";
-import ProgressBarContainer from '../ProgressBar/ProgressBarContainer';
+import { useDispatch, useSelector } from "react-redux";
+import ProgressBar from '../ProgressBar/ProgressBar';
+import { actions } from '../../store/profile';
+
 function CaloriePreview() {
 
-    const [calorieLimit, setCalorieLimit] = useState(0);
-    const [calorieNeeds, setCalorieNeeds] = useState(0);
-    const [bmr, setBmr] = useState(0);
+
+    const dispatch = useDispatch();
+
+    const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
+    const calorieNeeds = useSelector((state) => state.profileInfo.calorieNeeds);
+    const bmr = useSelector((state) => state.profileInfo.bmr);
+
     const fitnessPlan = useSelector((state) => state.profileInfo.fitnessPlan);
     const height = useSelector((state) => state.profileInfo.height);
     const weight = useSelector((state) => state.profileInfo.weight);
@@ -17,9 +23,13 @@ function CaloriePreview() {
 
     useEffect(() => {
         if (fitnessPlan && gender && weight && height && age && activityFactor) {
-            setBmr(calculateBMR(gender, weight, height, age))
-            setCalorieNeeds(calculateDailyCalorieNeeds(bmr, activityFactor))
-            setCalorieLimit(calculateCalorieLimit(fitnessPlan, gender, weight, height, age, activityFactor))
+            dispatch(actions.setBMR(calculateBMR(gender, weight, height, age)))
+            dispatch(actions.setCalorieNeeds(calculateDailyCalorieNeeds(bmr, activityFactor)))
+            dispatch(actions.setCalorieLimit(calculateCalorieLimit(calorieNeeds, fitnessPlan)))
+
+            setPercentage(calorieLimit / calorieNeeds)
+            console.log(calorieLimit)
+            console.log(calorieNeeds)
         }
 
 
@@ -32,7 +42,13 @@ function CaloriePreview() {
                 <div>Your Daily Calorie Needs Are : {calorieNeeds}</div>
             </div>
             <div>
-                <ProgressBarContainer />
+                <ProgressBar progress={percentage * 100}
+                    size={250}
+                    strokeWidth={15}
+                    circleOneStroke='#d9edfe'
+                    circleTwoStroke='#7ea9e1'
+                    numerator={calorieLimit}
+                    divisor={calorieNeeds} />
             </div>
         </>
     )

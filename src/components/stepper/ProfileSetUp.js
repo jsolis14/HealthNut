@@ -14,6 +14,7 @@ import CaloriePreview from './CaloriePreview';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
+
     },
     backButton: {
         marginRight: theme.spacing(1),
@@ -22,6 +23,14 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
     },
+    stepper_content: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    stepper: {
+        background: '#fafafa'
+    }
 }));
 
 function getSteps() {
@@ -41,6 +50,10 @@ function getStepContent(stepIndex) {
         default:
             return 'Unknown stepIndex';
     }
+}
+
+function handleSubmit() {
+    console.log('Submitted')
 }
 
 function ProfileSetUp() {
@@ -72,9 +85,11 @@ function ProfileSetUp() {
 
     return (
         <div className={classes.root}>
-            <div className={classes.stepper_content}>
-                {stepperInfo}
-                <Stepper activeStep={activeStep} alternativeLabel>
+            <div >
+                <div className={classes.stepper_content}>
+                    {stepperInfo}
+                </div>
+                <Stepper className={classes.stepper} activeStep={activeStep} alternativeLabel>
                     {steps.map((label) => (
                         <Step key={label}>
                             <StepLabel>{label}</StepLabel>
@@ -101,9 +116,9 @@ function ProfileSetUp() {
                                 >
                                     Back
                                 </Button>
-                                <Button variant="contained" color="primary" onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
+                                {activeStep < steps.length - 1 ? <Button variant="contained" color="primary" onClick={handleNext}>Next</Button> : <></>}
+                                {activeStep === steps.length - 1 ? <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button> : <></>}
+
                             </div>
                         </div>
                     )}

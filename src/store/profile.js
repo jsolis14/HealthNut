@@ -6,6 +6,9 @@ const SET_WEIGHT = 'SET_WEIGHT';
 const SET_GENDER = 'SET_GENDER';
 const SET_ACTIVITY_FACTOR = 'SET_ACTIVITY_FACTOR';
 const SET_FITNESS_PLAN = 'SET_FITNESS_PLAN';
+const SET_BMR = 'SET_BMR';
+const SET_CALORIE_NEEDS = 'SET_CALORIE_NEEDS';
+const SET_CALORIE_LIMIT = 'SET_CALORIE_LIMIT';
 
 const setAge = (value) => ({ type: SET_AGE, value });
 const setHeight = (value) => ({ type: SET_HEIGHT, value });
@@ -13,6 +16,9 @@ const setWeight = (value) => ({ type: SET_WEIGHT, value });
 const setGender = (value) => ({ type: SET_GENDER, value });
 const setActivityFactor = (value) => ({ type: SET_ACTIVITY_FACTOR, value })
 const setFitnessPlan = (value) => ({ type: SET_FITNESS_PLAN, value })
+const setCalorieLimit = (value) => ({ type: SET_CALORIE_LIMIT, value })
+const setBMR = (value) => ({ type: SET_BMR, value })
+const setCalorieNeeds = (value) => ({ type: SET_CALORIE_NEEDS, value })
 
 export const actions = {
     setAge,
@@ -21,6 +27,9 @@ export const actions = {
     setGender,
     setActivityFactor,
     setFitnessPlan,
+    setCalorieLimit,
+    setBMR,
+    setCalorieNeeds,
 };
 
 export const thunks = {
@@ -65,6 +74,24 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 fitnessPlan: action.value
+            }
+        }
+        case SET_BMR: {
+            return {
+                ...state,
+                bmr: action.value
+            }
+        }
+        case SET_CALORIE_LIMIT: {
+            return {
+                ...state,
+                calorieLimit: action.value
+            }
+        }
+        case SET_CALORIE_NEEDS: {
+            return {
+                ...state,
+                calorieNeeds: action.value
             }
         }
         default: {

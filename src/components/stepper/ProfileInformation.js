@@ -29,7 +29,7 @@ function ProfileInformation() {
     // }
 
     return (
-        <div>
+        <>
             <div>
                 <Input
                     id="standard-adornment-height"
@@ -78,7 +78,7 @@ function ProfileInformation() {
                     </RadioGroup>
                 </FormControl>
             </div>
-        </div>
+        </>
     )
 }
 

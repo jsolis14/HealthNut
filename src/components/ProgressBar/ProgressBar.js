@@ -1,60 +1,3 @@
-// import React, { useState, useEffect, useRef, useDebugValue } from 'react';
-// import ProfileInformation from '../stepper/ProfileInformation';
-// import './ProgressBar.css';
-
-// function ProgressBar(props) {
-//     const [offset, setOffSet] = useState(0);
-//     const circleRef = useRef(null);
-
-//     const { size, progress, strokeWidth, circleOneStroke, circleTwoStroke } = props;
-
-//     const center = size / 2;
-//     const radious = size / 2 - strokeWidth / 2;
-//     const circumference = 2 * Math.PI * radious;
-
-//     useEffect(() => {
-//         const progressOffset = ((100 - progress) / 100) * circumference;
-//         setOffSet(progressOffset);
-
-//         circleRef.current.style = 'transition: stroke-dashoffset 850ms ease-in-out';
-
-//     }, [setOffSet, offset, progress, circumference]);
-
-//     return (
-//         <div>
-//             <svg width={size} height={size} className='circular-chart'>
-//                 <circle className='circular-bg'
-//                     stroke={circleOneStroke}
-//                     cx={center}
-//                     cy={center}
-//                     r={radious}
-//                     strokeWidth={strokeWidth}>
-//                 </circle>
-//                 <circle className='circle'
-//                     stroke={circleTwoStroke}
-//                     ref={circleRef}
-//                     cx={center}
-//                     cy={center}
-//                     r={radious}
-//                     strokeWidth={strokeWidth}
-//                     strokeDasharray={circumference}
-//                     strokeDashoffset={offset}>
-
-//                 </circle>
-//                 <text
-//                     x={center}
-//                     y={center}
-//                     className='percentage'>
-//                     {progress}%
-//                 </text>
-//             </svg>
-//         </div>
-//     )
-// }
-
-// export default ProgressBar;
-
-
 import React, { useEffect, useState, useRef } from 'react';
 import './ProgressBar.css';
 
@@ -67,6 +10,8 @@ const ProgressBar = props => {
         strokeWidth,
         circleOneStroke,
         circleTwoStroke,
+        numerator,
+        divisor
     } = props;
 
     const center = size / 2;
@@ -111,7 +56,7 @@ const ProgressBar = props => {
                     x={`${center}`}
                     y={`${center}`}
                     className="svg-circle-text percentage">
-                    {progress}%
+                    {numerator && divisor ? `${numerator}/${divisor}` : 'Please fill out all info'}{}
                 </text>
             </svg>
         </>
