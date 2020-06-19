@@ -1,0 +1,48 @@
+.circular-chart {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    max-height: 250px;
+}
+
+.circular-bg{
+    fill: white;
+    background-color: white;
+}
+
+.percentage {
+    font-size: 1.3rem;
+    text-anchor: middle;
+    fill: black;
+    font-weight: bold;
+}
+
+input{
+    color: #000;
+}
+.circle{
+    fill: none;
+}
+
+
+/* .svg{
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+} */
+
+/* .svg-circle-bg {
+    fill: none;
+} */
+
+
+/* .svg-circle {
+    fill: none;
+}
+
+.svg-circle-text {
+    font-size: 2rem;
+    text-anchor: middle;
+    fill: black;
+    font-weight: bold;
+} */

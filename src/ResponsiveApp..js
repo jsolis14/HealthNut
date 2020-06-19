@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -24,6 +24,10 @@ import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfileMenu from './components/navigation/ProfileMenu';
+import ProfileSetUp from './components/stepper/ProfileSetUp';
+import ProgressBarContainer from './components/ProgressBar/ProgressBarContainer';
+import ProgressBar from './components/ProgressBar/ProgressBar';
+
 
 const drawerWidth = 240;
 
@@ -71,6 +75,16 @@ function ResponsiveDrawer(props) {
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+    // const properties = {
+    //     size: 250,
+    //     progress: 95,
+    //     strokeWidth: 15,
+    //     circleOneStroke: '#d9edfe',
+    //     circleTwoStroke: '#7ea9e1',
+    // }
+
+
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -155,15 +169,20 @@ function ResponsiveDrawer(props) {
             </nav>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <Router history={history}>
-                    <header>
+                <div>
+                    <Router history={history}>
+                        <header>
 
-                    </header>
-                    <Switch>
-                        <Route path="/" exact />
-                        <PrivateRoute path="/profile" component={Profile} />
-                    </Switch>
-                </Router>
+                        </header>
+                        <Switch>
+                            <Route path="/" exact />
+                            <PrivateRoute path='/setup' component={ProfileSetUp} />
+                            <PrivateRoute path="/profile" component={Profile} />
+                        </Switch>
+                    </Router>
+                </div>
+
+                <ProgressBarContainer />
                 <Typography paragraph>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                     ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
