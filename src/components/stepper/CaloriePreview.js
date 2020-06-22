@@ -24,8 +24,8 @@ function CaloriePreview() {
     useEffect(() => {
         if (fitnessPlan && gender && weight && height && age && activityFactor) {
             dispatch(actions.setBMR(calculateBMR(gender, weight, height, age)))
-            dispatch(actions.setCalorieNeeds(calculateDailyCalorieNeeds(bmr, activityFactor)))
-            dispatch(actions.setCalorieLimit(calculateCalorieLimit(calorieNeeds, fitnessPlan)))
+            dispatch(actions.setCalorieNeeds(parseInt(calculateDailyCalorieNeeds(bmr, activityFactor))))
+            dispatch(actions.setCalorieLimit(parseInt(calculateCalorieLimit(calorieNeeds, fitnessPlan))))
 
             setPercentage(calorieLimit / calorieNeeds)
             console.log(calorieLimit)

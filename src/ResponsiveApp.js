@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,20 +13,21 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import AppleIcon from '@material-ui/icons/Apple';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { useAuth0 } from './react-auth0-spa';
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Link } from "react-router-dom";
 import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfileMenu from './components/navigation/ProfileMenu';
 import ProfileSetUp from './components/stepper/ProfileSetUp';
-import ProgressBarContainer from './components/ProgressBar/ProgressBarContainer';
-import ProgressBar from './components/ProgressBar/ProgressBar';
+import Foods from './components/foods/foods'
 
 
 const drawerWidth = 240;
@@ -74,17 +75,12 @@ function ResponsiveDrawer(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
-    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-    const [showProfileSetup, setShowProfileSetup] = useState(true);
-    // const properties = {
-    //     size: 250,
-    //     progress: 95,
-    //     strokeWidth: 15,
-    //     circleOneStroke: '#d9edfe',
-    //     circleTwoStroke: '#7ea9e1',
-    // }
+    const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+    const [showProfileSetup, setShowProfileSetup] = useState(false);
+    const [showNutritionLabel, setShowNutritionLabel] = useState(true);
+    useEffect(() => {
 
-
+    })
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -95,11 +91,22 @@ function ResponsiveDrawer(props) {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                <Link to='/foods' color='inherit'>
+                    <ListItem button key='Foods' onClick={() => console.log('food clicked')}>
+                        <ListItemIcon><AppleIcon /></ListItemIcon>
+                        <ListItemText primary={'Foods'} />
+                    </ListItem>
+                </Link>
+                <ListItem button key='Meals'>
+                    <ListItemIcon><FastfoodIcon /></ListItemIcon>
+                    <ListItemText primary={'Meals'} />
+                </ListItem>
+                {['Foods', 'Meals', 'Send email', 'Drafts'].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>
+
                 ))}
             </List>
             <Divider />
@@ -170,17 +177,17 @@ function ResponsiveDrawer(props) {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <div>
-                    {showProfileSetup ? <ProfileSetUp /> : <></>}
+                    {showProfileSetup ? <ProfileSetUp setShowProfileSetup={setShowProfileSetup} /> : <></>}
                     <Router history={history}>
-                        <header>
-                        </header>
+
                         <Switch>
                             <Route path="/" exact />
-                            {/* <PrivateRoute path='/setup' component={ProfileSetUp} /> */}
                             <PrivateRoute path="/profile" component={Profile} />
+                            <PrivateRoute path="/foods" component={Foods} setShowNutritionLabel={setShowNutritionLabel} />
                         </Switch>
                     </Router>
                 </div>
+
                 <Typography paragraph>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                     ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum

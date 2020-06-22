@@ -8,7 +8,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
-import ResponsiveApp from './ResponsiveApp.';
+import ResponsiveApp from './ResponsiveApp';
 
 
 function App() {

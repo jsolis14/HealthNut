@@ -38,11 +38,12 @@ export const Auth0Provider = ({
                 let user = await auth0FromHook.getUser();
                 let token = await auth0FromHook.getTokenSilently();
                 console.log(token)
+                console.log(user.email)
                 const res = await fetch(`${api}/users`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
                         nickname: user.nickname,
@@ -51,8 +52,11 @@ export const Auth0Provider = ({
                     }),
                 });
                 const result = await res.json();
+                console.log()
                 const id = result.id;
-                user = { ...user, id };
+                const cal_needs = result.cal_needs
+                const cal_limit = result.cal_limit
+                user = { ...user, id, cal_needs, cal_limit };
 
 
                 setUser(user);

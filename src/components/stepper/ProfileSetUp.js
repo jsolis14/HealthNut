@@ -11,6 +11,11 @@ import ActivityInfo from './ActivityInfo';
 import FitnessPlanInfo from './FitnessPlanInfo';
 import CaloriePreview from './CaloriePreview';
 
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from '../../store/profile';
+import { api } from '../../config';
+import { useAuth0 } from "../../react-auth0-spa";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -52,14 +57,53 @@ function getStepContent(stepIndex) {
     }
 }
 
-function handleSubmit() {
-    console.log('Submitted')
-}
-
-function ProfileSetUp() {
+function ProfileSetUp({ setShowProfileSetup }) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
+    const { user, getTokenSilently } = useAuth0();
+
+    const height = useSelector((state) => state.profileInfo.height);
+    const weight = useSelector((state) => state.profileInfo.weight);
+    const age = useSelector((state) => state.profileInfo.age);
+    const gender = useSelector((state) => state.profileInfo.gender);
+    const activityFactor = useSelector((state) => state.profileInfo.activityFactor);
+    const fitnessPlan = useSelector((state) => state.profileInfo.fitnessPlan);
+    const bmr = useSelector((state) => state.profileInfo.bmr);
+    const calorieNeeds = useSelector((state) => state.profileInfo.calorieNeeds);
+    const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
+
+    async function handleSubmit() {
+
+        const data = {
+            id: user.id,
+            height,
+            weight,
+            age,
+            gender,
+            activityFactor,
+            fitnessPlan,
+            bmr,
+            calorieNeeds,
+            calorieLimit
+        }
+        const token = await getTokenSilently()
+        const res = await fetch(`${api}/users/updateinfo`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        })
+
+        if (res.ok) {
+            console.log('Submitted')
+            setShowProfileSetup(false)
+        }
+
+    }
+
     let stepperInfo;
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);

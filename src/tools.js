@@ -39,5 +39,3 @@ export function calculateCalorieLimit(dailyCalorieNeeds, fitnessPlan, gender) {
 
     return dailyThresh;
 }
-
-console.log(calculateCalorieLimit('loose', 'male', 200, '5.6', 23, '1.375'))

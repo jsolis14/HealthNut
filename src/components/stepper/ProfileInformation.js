@@ -47,7 +47,7 @@ function ProfileInformation() {
                 <Input
                     id="standard-adornment-weight"
                     value={weight}
-                    onChange={(e) => dispatch(actions.setWeight(e.target.value))}
+                    onChange={(e) => dispatch(actions.setWeight(parseInt(e.target.value)))}
                     endAdornment={<InputAdornment position="end">Kg</InputAdornment>}
                     aria-describedby="standard-weight-helper-text"
                     inputProps={{
@@ -60,7 +60,7 @@ function ProfileInformation() {
                 <Input
                     id="standard-adornment-age"
                     value={age}
-                    onChange={(e) => dispatch(actions.setAge(e.target.value))}
+                    onChange={(e) => dispatch(actions.setAge(parseInt(e.target.value)))}
                     endAdornment={<InputAdornment position="end">Years</InputAdornment>}
                     aria-describedby="standard-age-helper-text"
                     inputProps={{
