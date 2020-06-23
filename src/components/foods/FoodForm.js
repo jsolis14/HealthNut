@@ -6,7 +6,9 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import { api } from '../../config';
-
+import { useAuth0 } from '../../react-auth0-spa';
+import { thunks } from '../../store/foods';
+import { useDispatch, useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -32,12 +34,17 @@ function FoodForm() {
     const [sodium, set_sodium] = useState('');
     const [total_carbs, set_total_carbs] = useState('');
     const [dietary_fiber, set_dietary_fiber] = useState('');
-    const [sugars, set_sugars] = useState('')
-    const [protein, set_protein] = useState('')
-    const [total_cal, set_total_cal] = useState('')
+    const [sugars, set_sugars] = useState('');
+    const [protein, set_protein] = useState('');
+    const [total_cal, set_total_cal] = useState('');
+    const [name, set_name] = useState('');
+    const { user, getTokenSilently } = useAuth0();
+    const dispatch = useDispatch();
 
     async function handleSaveFood() {
+        const user_id = user.id
         const body = {
+            name,
             total_fat,
             saturated_fat,
             trans_fat,
@@ -48,13 +55,28 @@ function FoodForm() {
             sugars,
             protein,
             total_cal,
+            user_id
         }
+        const userId = user.id
+        const token = await getTokenSilently();
+        dispatch(thunks.postFood(userId, token, body))
 
-        const res = await fetch(`${api}`)
     }
 
     return (
         <div>
+            <FormControl className={classes.margin, classes.withoutLabel, classes.textField}>
+                <Input
+                    id="standard-adornment-name"
+                    value={name}
+                    onChange={e => set_name(e.target.value)}
+                    aria-describedby="Enter name of food"
+                    inputProps={{
+                        'aria-label': 'name',
+                    }}
+                />
+                <FormHelperText id="name-helper-text">Name</FormHelperText>
+            </FormControl>
             <FormControl className={classes.margin, classes.withoutLabel, classes.textField}>
                 <Input
                     id="standard-adornment-calories"

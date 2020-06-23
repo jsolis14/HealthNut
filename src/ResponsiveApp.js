@@ -28,7 +28,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import ProfileMenu from './components/navigation/ProfileMenu';
 import ProfileSetUp from './components/stepper/ProfileSetUp';
 import Foods from './components/foods/foods'
-
+import CalorieTracker from './components/calorieTracker/CalorieTracker';
 
 const drawerWidth = 240;
 
@@ -101,6 +101,12 @@ function ResponsiveDrawer(props) {
                     <ListItemIcon><FastfoodIcon /></ListItemIcon>
                     <ListItemText primary={'Meals'} />
                 </ListItem>
+                <Link to='/calorie-tracker' color='inherit'>
+                    <ListItem button key='Foods' onClick={() => console.log('food clicked')}>
+                        <ListItemIcon><AppleIcon /></ListItemIcon>
+                        <ListItemText primary={'Calorie Tracker'} />
+                    </ListItem>
+                </Link>
                 {['Foods', 'Meals', 'Send email', 'Drafts'].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
@@ -183,7 +189,8 @@ function ResponsiveDrawer(props) {
                         <Switch>
                             <Route path="/" exact />
                             <PrivateRoute path="/profile" component={Profile} />
-                            <PrivateRoute path="/foods" component={Foods} setShowNutritionLabel={setShowNutritionLabel} />
+                            <PrivateRoute path="/foods" component={Foods} />
+                            <PrivateRoute path="/calorie-tracker" component={CalorieTracker} />
                         </Switch>
                     </Router>
                 </div>
