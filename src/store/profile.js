@@ -32,8 +32,21 @@ export const actions = {
     setCalorieNeeds,
 };
 
-export const thunks = {
+const getUserInfo = (calorieLimit, calorieNeeds) => {
+    return async (dispatch, getState) => {
+        // dispatch(setAge())
+        // dispatch(setWeight())
+        // dispatch(setHeight())
+        // dispatch(setGender())
+        // dispatch(setActivityFactor())
+        // dispatch(setFitnessPlan())
+        dispatch(setCalorieLimit(calorieLimit))
+        dispatch(setCalorieNeeds(calorieNeeds))
+    };
+};
 
+export const thunks = {
+    getUserInfo
 };
 
 const initialState = [];
