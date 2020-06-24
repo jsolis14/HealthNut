@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import { api } from "./config";
+import { thunks } from './store/profile';
+import { useDispatch, useSelector } from "react-redux";
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
     window.history.replaceState({}, document.title, window.location.pathname);
@@ -18,6 +20,7 @@ export const Auth0Provider = ({
     const [auth0Client, setAuth0] = useState();
     const [loading, setLoading] = useState(true);
     const [popupOpen, setPopupOpen] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const initAuth0 = async () => {
@@ -38,11 +41,12 @@ export const Auth0Provider = ({
                 let user = await auth0FromHook.getUser();
                 let token = await auth0FromHook.getTokenSilently();
                 console.log(token)
+                console.log(user.email)
                 const res = await fetch(`${api}/users`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
                         nickname: user.nickname,
@@ -51,9 +55,13 @@ export const Auth0Provider = ({
                     }),
                 });
                 const result = await res.json();
+                console.log(result)
                 const id = result.id;
-                user = { ...user, id };
+                const cal_needs = result.cal_needs
+                const cal_limit = result.cal_limit
+                user = { ...user, id, cal_needs, cal_limit };
 
+                dispatch(thunks.getUserInfo(result.cal_limit, result.cal_needs))
 
                 setUser(user);
             }

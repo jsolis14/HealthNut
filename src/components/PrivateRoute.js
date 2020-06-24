@@ -20,7 +20,7 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
     const render = props =>
         isAuthenticated === true ? <Component {...props} /> : null;
 
-    return <Route path={path} render={render} {...rest} />;
+    return <Route path={path} render={(rest) => render(rest)} {...rest} />;
 };
 
 export default PrivateRoute;
