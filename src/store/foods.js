@@ -1,13 +1,15 @@
 import { api } from "../config";
 
 const SET_FOODS = 'SET_FOODS';
-
+const ADD_FOOD = 'ADD_FOOD';
 
 const setFoods = (value) => ({ type: SET_FOODS, value })
-
+const addFood = (value) => ({ type: ADD_FOOD, value })
 export const actions = {
-    setFoods
+    setFoods,
+    addFood
 };
+
 
 const getFoods = (userId, token) => {
     return async (dispatch, getState) => {
@@ -44,7 +46,7 @@ const postFood = (userId, token, body) => {
             if (res.ok) {
                 const food = await res.json();
                 console.log(food);
-                dispatch(setFoods([food[0]]));
+                dispatch(addFood([food[0]]));
             }
         } catch (e) {
             console.log(e);
@@ -65,7 +67,13 @@ function reducer(state = initialState, action) {
         case SET_FOODS: {
             return {
                 ...state,
-                foods: [...action.value, ...state.foods],
+                foods: [...action.value],
+            }
+        }
+        case ADD_FOOD: {
+            return {
+                ...state,
+                foods: [...action.value, ...state.foods]
             }
         }
         default: {
