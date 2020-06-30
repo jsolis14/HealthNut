@@ -1,5 +1,5 @@
 {
     "domain": "health-nut.us.auth0.com",
     "clientId": "qqNJy1ABiAJw5XKT2r9dbDLoc1EmXXjY",
-    "audience": "https://health-nut/api"
+    "audience": "https://health-nut.us.auth0.com/api/v2/"
 }
