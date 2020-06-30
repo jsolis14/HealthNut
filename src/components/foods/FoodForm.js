@@ -23,9 +23,17 @@ const useStyles = makeStyles((theme) => ({
     textField: {
         width: '25ch',
     },
+    form_container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    cancel_button: {
+        margin: '10px'
+    }
 }));
 
-function FoodForm() {
+function FoodForm({ handleClose }) {
     const classes = useStyles();
     const [total_fat, set_total_fat] = useState('');
     const [saturated_fat, set_saturated_fat] = useState('');
@@ -61,10 +69,14 @@ function FoodForm() {
         const token = await getTokenSilently();
         dispatch(thunks.postFood(userId, token, body))
 
+        //change this later
+        handleClose(false)
+
     }
 
     return (
-        <div>
+
+        <div className={classes.form_container}>
             <FormControl className={classes.margin, classes.withoutLabel, classes.textField}>
                 <Input
                     id="standard-adornment-name"
@@ -207,9 +219,15 @@ function FoodForm() {
                 />
                 <FormHelperText id="protein-helper-text">Protein</FormHelperText>
             </FormControl>
-            <Button onClick={handleSaveFood} variant="contained" color="primary">
-                Save Food
+            <div className={classes.button_container}>
+                <Button className={classes.cancel_button} onClick={handleClose} variant="contained" >
+                    Cancel
             </Button>
+                <Button onClick={handleSaveFood} variant="contained" color="primary">
+                    Save Food
+            </Button>
+            </div>
+
         </div>
 
     )

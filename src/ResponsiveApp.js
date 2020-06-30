@@ -18,10 +18,11 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
+import NoteIcon from '@material-ui/icons/Note';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { useAuth0 } from './react-auth0-spa';
-import { Router, Route, Switch, Link } from "react-router-dom";
+import { Router, Route, Switch, Link, Redirect } from "react-router-dom";
 import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
@@ -29,7 +30,7 @@ import ProfileMenu from './components/navigation/ProfileMenu';
 import ProfileSetUp from './components/stepper/ProfileSetUp';
 import Foods from './components/foods/foods'
 import CalorieTracker from './components/calorieTracker/CalorieTracker';
-
+import { useDispatch, useSelector } from "react-redux";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +68,10 @@ const useStyles = makeStyles((theme) => ({
     navbar: {
         display: 'flex',
         justifyContent: 'space-between',
+    },
+    menu_links: {
+        textDecoration: 'none',
+        color: 'black'
     }
 }));
 
@@ -78,9 +83,8 @@ function ResponsiveDrawer(props) {
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
     const [showProfileSetup, setShowProfileSetup] = useState(false);
     const [showNutritionLabel, setShowNutritionLabel] = useState(true);
-    useEffect(() => {
-
-    })
+    const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
+    const calorieNeeds = useSelector((state) => state.profileInfo.caloriNeeds);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -91,7 +95,7 @@ function ResponsiveDrawer(props) {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                <Link to='/foods' color='inherit'>
+                <Link to='/foods' color='inherit' className={classes.menu_links}>
                     <ListItem button key='Foods' onClick={() => console.log('food clicked')}>
                         <ListItemIcon><AppleIcon /></ListItemIcon>
                         <ListItemText primary={'Foods'} />
@@ -101,21 +105,21 @@ function ResponsiveDrawer(props) {
                     <ListItemIcon><FastfoodIcon /></ListItemIcon>
                     <ListItemText primary={'Meals'} />
                 </ListItem>
-                <Link to='/calorie-tracker' color='inherit'>
+                <Link to='/calorie-tracker' color='inherit' className={classes.menu_links}>
                     <ListItem button key='Foods' onClick={() => console.log('food clicked')}>
-                        <ListItemIcon><AppleIcon /></ListItemIcon>
+                        <ListItemIcon><NoteIcon /></ListItemIcon>
                         <ListItemText primary={'Calorie Tracker'} />
                     </ListItem>
                 </Link>
-                {['Foods', 'Meals', 'Send email', 'Drafts'].map((text, index) => (
+                {/* {['Foods', 'Meals', 'Send email', 'Drafts'].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>
 
-                ))}
+                ))} */}
             </List>
-            <Divider />
+            {/* <Divider />
             <List>
                 {['All mail', 'Trash', 'Spam'].map((text, index) => (
                     <ListItem button key={text}>
@@ -123,12 +127,15 @@ function ResponsiveDrawer(props) {
                         <ListItemText primary={text} />
                     </ListItem>
                 ))}
-            </List>
+            </List> */}
         </div>
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
+    // if (calorieLimit === null && calorieNeeds == null && user) {
+    //     return <Redirect to='set-up' : />
+    // }
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -187,36 +194,14 @@ function ResponsiveDrawer(props) {
                     <Router history={history}>
 
                         <Switch>
-                            <Route path="/" exact />
+                            <Route path="/" exact>{calorieLimit === null && calorieNeeds == null && user ? <Redirect to='/set-up' /> : <></>} </Route>
                             <PrivateRoute path="/profile" component={Profile} />
                             <PrivateRoute path="/foods" component={Foods} />
                             <PrivateRoute path="/calorie-tracker" component={CalorieTracker} />
+                            <PrivateRoute path="/set-up" component={ProfileSetUp} />
                         </Switch>
                     </Router>
                 </div>
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                    facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                    gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                    donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-                    Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-                    imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                    arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-                    donec massa sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                    facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                    tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                    consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                    vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                    hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                    tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                    nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                    accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-                </Typography>
             </main>
         </div >
     );
