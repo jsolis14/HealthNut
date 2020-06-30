@@ -262,12 +262,13 @@ export default function CustomPaginationActionsTable() {
                                 ActionsComponent={TablePaginationActions}
                             />
 
-                            <FoodFormModal />
+
                         </TableRow>
                     </TableFooter>
                 </Table>
             </TableContainer>
             {/* {showForm ? <FoodFormModal /> : null} */}
+            <FoodFormModal />
         </div>
     );
 }

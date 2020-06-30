@@ -10,7 +10,7 @@ import ProfileInformation from './ProfileInformation';
 import ActivityInfo from './ActivityInfo';
 import FitnessPlanInfo from './FitnessPlanInfo';
 import CaloriePreview from './CaloriePreview';
-
+import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../store/profile';
 import { api } from '../../config';
@@ -99,7 +99,7 @@ function ProfileSetUp({ setShowProfileSetup }) {
 
         if (res.ok) {
             console.log('Submitted')
-            setShowProfileSetup(false)
+            window.location.href = 'http://localhost:3000/foods'
         }
 
     }

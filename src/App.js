@@ -9,9 +9,13 @@ import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
 import ResponsiveApp from './ResponsiveApp';
-
+import { useAuth0 } from './react-auth0-spa';
 
 function App() {
+  const { loading } = useAuth0();
+  if (loading) {
+    return 'loading'
+  }
   return (
     <div className="App">
       {/* Don't forget to include the history module */}
