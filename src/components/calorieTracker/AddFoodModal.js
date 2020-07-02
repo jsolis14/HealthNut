@@ -68,7 +68,7 @@ export default function AddFoodModal({ showModal, setShowModal }) {
     // handleLoad()
     useEffect(() => {
         if (foods.length === 0 && user) {
-            console.log('here')
+
             getUserDispatch()
         }
         handleLoad();
@@ -76,7 +76,7 @@ export default function AddFoodModal({ showModal, setShowModal }) {
     }, [user, showModal])
 
     function handleLoad() {
-        console.log('here')
+
         if (showModal.from === 'breakfast') {
             dispatch(actions.setModifiedFoodIds(breakfast_foods_ids))
         } else if (showModal.from === 'lunch') {
@@ -104,13 +104,13 @@ export default function AddFoodModal({ showModal, setShowModal }) {
         // } else {
         //     foodIds = snack_foods_ids;
         // }
-        // console.log(date, breakfast_foods, lunch_foods, dinner_foods, snack_foods, user_id)
+
         const body = {
             day: [date.getFullYear(), date.getMonth() + 1, date.getDate()],
             user_id,
             from: showModal.from,
         }
-        console.log(body)
+
         dispatch(calorieTrackerThunks.addFoods(token, body))
         setShowModal({ show: false, from: '' })
         dispatch(actions.setModifiedFoodIds([]))

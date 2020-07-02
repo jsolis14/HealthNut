@@ -29,7 +29,7 @@ const useStyles1 = makeStyles((theme) => ({
 
 function TablePaginationActions(props) {
     const classes = useStyles1();
-    console.log(props);
+
     const theme = useTheme();
     const { count, page, rowsPerPage, onChangePage, setShowForm } = props;
 
@@ -127,17 +127,17 @@ export default function CustomPaginationActionsTable() {
 
     async function getUserInfo() {
         const token = await getTokenSilently()
-        console.log(user)
+
         return { userId: user.id, token }
     }
 
     useEffect(() => {
         async function fetchReq() {
             if (foods.length === 0 && user) {
-                console.log(user);
+
                 const userId = user.id
                 const token = await getTokenSilently()
-                console.log(userId)
+
                 dispatch(thunks.getFoods(userId, token))
 
 

@@ -26,7 +26,7 @@ const getFoods = (userId, token) => {
                 dispatch(setFoods(res));
             }
         } catch (e) {
-            console.log(e);
+
         }
     };
 };
@@ -45,11 +45,11 @@ const postFood = (userId, token, body) => {
 
             if (res.ok) {
                 const food = await res.json();
-                console.log(food);
+
                 dispatch(addFood([food[0]]));
             }
         } catch (e) {
-            console.log(e);
+
 
         }
     };

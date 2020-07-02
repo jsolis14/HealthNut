@@ -1,7 +1,7 @@
 export function calculateBMR(gender, weight, height, age) {
     //Basal Metabolic Rate based on the Harris-Bennidict Formula
     let heightArr = height.split('.')
-    console.log(heightArr);
+
     let inches = parseInt(heightArr[0]) * 12 + parseInt(heightArr[1])
     let bmr;
     if (gender === 'male') {
@@ -22,7 +22,7 @@ export function calculateCalorieLimit(dailyCalorieNeeds, fitnessPlan, gender) {
     } else if (fitnessPlan === 'loose') {
         weeklyThresh -= 3500
     } else if (fitnessPlan === 'maintain') {
-        console.log('here')
+
     } else if (fitnessPlan === 'gain') {
         weeklyThresh += 3500
     }

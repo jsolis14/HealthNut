@@ -40,8 +40,7 @@ export const Auth0Provider = ({
             if (isAuthenticated) {
                 let user = await auth0FromHook.getUser();
                 let token = await auth0FromHook.getTokenSilently();
-                console.log(token)
-                console.log(user.email)
+
                 const res = await fetch(`${api}/users`, {
                     method: "PATCH",
                     headers: {
@@ -55,7 +54,7 @@ export const Auth0Provider = ({
                     }),
                 });
                 const result = await res.json();
-                console.log(result)
+
                 const id = result.id;
                 const cal_needs = result.cal_needs
                 const cal_limit = result.cal_limit

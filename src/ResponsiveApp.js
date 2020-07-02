@@ -96,7 +96,7 @@ function ResponsiveDrawer(props) {
             <Divider />
             <List>
                 <Link to='/foods' color='inherit' className={classes.menu_links}>
-                    <ListItem button key='Foods' onClick={() => console.log('food clicked')}>
+                    <ListItem button key='Foods' >
                         <ListItemIcon><AppleIcon /></ListItemIcon>
                         <ListItemText primary={'Foods'} />
                     </ListItem>
@@ -106,7 +106,7 @@ function ResponsiveDrawer(props) {
                     <ListItemText primary={'Meals'} />
                 </ListItem>
                 <Link to='/calorie-tracker' color='inherit' className={classes.menu_links}>
-                    <ListItem button key='Foods' onClick={() => console.log('food clicked')}>
+                    <ListItem button key='Foods'>
                         <ListItemIcon><NoteIcon /></ListItemIcon>
                         <ListItemText primary={'Calorie Tracker'} />
                     </ListItem>

@@ -98,7 +98,7 @@ function ProfileSetUp({ setShowProfileSetup }) {
         })
 
         if (res.ok) {
-            console.log('Submitted')
+
             window.location.href = 'http://localhost:3000/foods'
         }
 

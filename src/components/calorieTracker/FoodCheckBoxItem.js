@@ -53,9 +53,9 @@ export default function FoodCheckBoxItem({ food, foodIds = [], showModal, setFoo
         if (itemCount > 0) {
             let list = modified_foods_ids
             const foodIdIndex = list.indexOf(food.id)
-            console.log(foodIdIndex)
+
             list = [...list.slice(0, foodIdIndex), ...list.slice(foodIdIndex + 1, list.length)]
-            console.log(list)
+
             // setFoodIds(list)
             dispatch(actions.setModifiedFoodIds(list))
             setItemCount(itemCount - 1)

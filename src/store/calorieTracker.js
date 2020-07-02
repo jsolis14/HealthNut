@@ -47,7 +47,7 @@ export const actions = {
 const updateFoods = (token, userId) => {
     return async (dispatch, getState) => {
         const date = getState().calorieTracker.selectedDate
-        console.log(date)
+
         const res = await fetch(`${api}/calorie-tracker/user/${userId}/foods`, {
             method: 'PATCH',
             headers: {
@@ -60,7 +60,7 @@ const updateFoods = (token, userId) => {
         try {
             if (res.ok) {
                 const food = await res.json();
-                console.log(food)
+
                 dispatch(setBreakfastFoods(food.breakfast_foods))
                 dispatch(setLunchFoods(food.lunch_foods))
                 dispatch(setDinnerFoods(food.dinner_foods))
@@ -113,7 +113,7 @@ const updateFoods = (token, userId) => {
 
             }
         } catch (e) {
-            console.log(e);
+
         }
     };
 };
@@ -159,7 +159,7 @@ const addFoods = (token, body) => {
                     new_foods_protein += food.food.protein * food.servings
                     new_foods_fat += food.food.total_fat * food.servings
                 })
-                console.log(foods)
+
 
                 if (body.from === 'breakfast') {
                     breakfast_foods.forEach(food => {
@@ -241,7 +241,7 @@ const addFoods = (token, body) => {
                 }
             }
         } catch (e) {
-            console.log(e);
+
         }
     };
 };

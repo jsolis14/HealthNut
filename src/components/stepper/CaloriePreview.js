@@ -28,8 +28,6 @@ function CaloriePreview() {
             dispatch(actions.setCalorieLimit(parseInt(calculateCalorieLimit(calorieNeeds, fitnessPlan))))
 
             setPercentage(calorieLimit / calorieNeeds)
-            console.log(calorieLimit)
-            console.log(calorieNeeds)
         }
 
 
