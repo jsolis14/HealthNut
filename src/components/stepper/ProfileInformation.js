@@ -7,34 +7,49 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
-
+import Button from '@material-ui/core/Button';
+import Alert from '@material-ui/lab/Alert';
 
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../store/profile';
 
-function ProfileInformation() {
-    // const [value, setValue] = useState('female');
-    // const [height, setHeight] = useState(5.11);
-    // const [weight, setWeight] = useState(100);
-    // const [age, setAge] = useState(24);
+function ProfileInformation({ age, weight, height, gender, setHeight, setAge, setGender, setWeight, setStep, step }) {
+    const [error, setError] = useState('')
 
-    const dispatch = useDispatch();
-    const age = useSelector((state) => state.profileInfo.age);
-    const height = useSelector((state) => state.profileInfo.height);
-    const weight = useSelector((state) => state.profileInfo.weight);
-    const gender = useSelector((state) => state.profileInfo.gender);
+    function handleNext() {
+        setError('')
+        console.log(height.split('.'))
+        const heightArr = height.split('.');
+        const feet = heightArr[0];
+        const inches = heightArr[1];
 
-    // function handleAge(e) {
-    //     useDispatch(actions.setAge(e.target.value))
-    // }
+        if (heightArr.length === 1 || height === '' || inches > 11 || inches < 0) {
+            setError(['Please enter a valid height in the form of "6.0" for 6 feet 0 inches'])
+            return
+        }
+        if (!age || age <= 0) {
+            setError(['Please enter a valid age'])
+            return
+        }
+        if (!weight || weight <= 0) {
+            setError(['Please enter a valid weight'])
+            return
+        }
+        if (!gender) {
+            setError(['Please enter a valid gender'])
+            return
+        }
+        setStep(step + 1)
+    }
 
     return (
         <>
+            {error ? <Alert severity="error">{error}</Alert> : <></>}
             <div>
                 <Input
                     id="standard-adornment-height"
                     value={height}
-                    onChange={(e) => dispatch(actions.setHeight(e.target.value))}
+                    onChange={(e) => setHeight(e.target.value)}
                     endAdornment={<InputAdornment position="end">Ex 6'1"</InputAdornment>}
                     aria-describedby="standard-height-helper-text"
                     inputProps={{
@@ -47,8 +62,8 @@ function ProfileInformation() {
                 <Input
                     id="standard-adornment-weight"
                     value={weight}
-                    onChange={(e) => dispatch(actions.setWeight(parseInt(e.target.value)))}
-                    endAdornment={<InputAdornment position="end">Kg</InputAdornment>}
+                    onChange={(e) => setWeight(e.target.value)}
+                    endAdornment={<InputAdornment position="end">lbs</InputAdornment>}
                     aria-describedby="standard-weight-helper-text"
                     inputProps={{
                         'aria-label': 'weight',
@@ -60,7 +75,7 @@ function ProfileInformation() {
                 <Input
                     id="standard-adornment-age"
                     value={age}
-                    onChange={(e) => dispatch(actions.setAge(parseInt(e.target.value)))}
+                    onChange={(e) => setAge(parseInt(e.target.value))}
                     endAdornment={<InputAdornment position="end">Years</InputAdornment>}
                     aria-describedby="standard-age-helper-text"
                     inputProps={{
@@ -72,12 +87,15 @@ function ProfileInformation() {
             <div>
                 <FormControl component="fieldset">
                     <FormLabel component="legend">Gender</FormLabel>
-                    <RadioGroup aria-label="gender" name="gender1" value={gender} onChange={(e) => dispatch(actions.setGender(e.target.value))}>
+                    <RadioGroup aria-label="gender" name="gender1" value={gender} onChange={(e) => setGender(e.target.value)}>
                         <FormControlLabel value="female" control={<Radio />} label="Female" />
                         <FormControlLabel value="male" control={<Radio />} label="Male" />
                     </RadioGroup>
                 </FormControl>
             </div>
+            <Button variant="contained" color="primary" onClick={handleNext}>
+                Next
+            </Button>
         </>
     )
 }

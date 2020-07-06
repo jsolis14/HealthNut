@@ -27,7 +27,7 @@ import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfileMenu from './components/navigation/ProfileMenu';
-import ProfileSetUp from './components/stepper/ProfileSetUp';
+import ProfileSetUpForm from './components/stepper/ProfileSetUpForm';
 import Foods from './components/foods/foods'
 import CalorieTracker from './components/calorieTracker/CalorieTracker';
 import { useDispatch, useSelector } from "react-redux";
@@ -84,7 +84,7 @@ function ResponsiveDrawer(props) {
     const [showProfileSetup, setShowProfileSetup] = useState(false);
     const [showNutritionLabel, setShowNutritionLabel] = useState(true);
     const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
-    const calorieNeeds = useSelector((state) => state.profileInfo.caloriNeeds);
+    const calorieNeeds = useSelector((state) => state.profileInfo.calorieNeeds);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -190,15 +190,15 @@ function ResponsiveDrawer(props) {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <div>
-                    {showProfileSetup ? <ProfileSetUp setShowProfileSetup={setShowProfileSetup} /> : <></>}
+                    {/* {showProfileSetup ? <ProfileSetUp setShowProfileSetup={setShowProfileSetup} /> : <></>} */}
                     <Router history={history}>
 
                         <Switch>
                             <Route path="/" exact>{calorieLimit === null && calorieNeeds == null && user ? <Redirect to='/set-up' /> : <></>} </Route>
-                            <PrivateRoute path="/profile" component={Profile} />
-                            <PrivateRoute path="/foods" component={Foods} />
-                            <PrivateRoute path="/calorie-tracker" component={CalorieTracker} />
-                            <PrivateRoute path="/set-up" component={ProfileSetUp} />
+                            <PrivateRoute path="/profile" component={Profile} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
+                            <PrivateRoute path="/foods" component={Foods} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
+                            <PrivateRoute path="/calorie-tracker" component={CalorieTracker} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
+                            <Route path="/set-up" component={ProfileSetUpForm} />
                         </Switch>
                     </Router>
                 </div>
