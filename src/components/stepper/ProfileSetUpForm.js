@@ -5,12 +5,22 @@ import FitnessPLanInfo from './FitnessPlanInfo';
 import CaloriePreview from './CaloriePreview';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from "../../react-auth0-spa";
+import { makeStyles } from '@material-ui/core/styles';
 import { actions } from '../../store/profile';
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCalorieLimit, calculateBMR, calculateDailyCalorieNeeds } from '../../tools';
 import { api } from '../../config';
 
+const useStyles = makeStyles((theme) => ({
+    form_container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    }
+}));
+
 export default function ProfileSetUpForm() {
+    const classes = useStyles();
     const [step, setStep] = useState(1);
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
@@ -41,6 +51,10 @@ export default function ProfileSetUpForm() {
             calorieLimit
         }
 
+        function handlePrev() {
+            setStep(step - 1)
+        }
+
         const token = await getTokenSilently();
         const res = await fetch(`${api}/users/updateinfo`, {
             method: "POST",
@@ -59,38 +73,47 @@ export default function ProfileSetUpForm() {
 
     if (step === 1) {
         return (
-            <ProfileInformation
-                nextStep={step}
-                values={height, weight, age, gender}
-                age={age}
-                setAge={setAge}
-                height={height}
-                setHeight={setHeight}
-                weight={weight}
-                setWeight={setWeight}
-                gender={gender}
-                setGender={setGender}
-                setStep={setStep}
-                step={step}
-            />
+            <div className={classes.form_container}>
+                <ProfileInformation
+                    nextStep={step}
+                    values={height, weight, age, gender}
+                    age={age}
+                    setAge={setAge}
+                    height={height}
+                    setHeight={setHeight}
+                    weight={weight}
+                    setWeight={setWeight}
+                    gender={gender}
+                    setGender={setGender}
+                    setStep={setStep}
+                    step={step}
+                />
+            </div>
+
         )
     } else if (step === 2) {
         return (
-            <ActivityInfo
-                activityFactor={activityFactor}
-                setActivityFactor={setActivityFactor}
-                setStep={setStep}
-                step={step}
-            />
+            <div className={classes.form_container}>
+                <ActivityInfo
+                    activityFactor={activityFactor}
+                    setActivityFactor={setActivityFactor}
+                    setStep={setStep}
+                    step={step}
+                />
+            </div>
+
         )
     } else if (step === 3) {
         return (
-            <FitnessPLanInfo
-                fitnessPlan={fitnessPlan}
-                setFitnessPlan={setFitnessPlan}
-                step={step}
-                setStep={setStep}
-            />
+            <div className={classes.form_container}>
+                <FitnessPLanInfo
+                    fitnessPlan={fitnessPlan}
+                    setFitnessPlan={setFitnessPlan}
+                    step={step}
+                    setStep={setStep}
+                />
+            </div>
+
         )
     } else if (step === 4) {
         const bmr = calculateBMR(gender, weight, height, age)
@@ -102,7 +125,7 @@ export default function ProfileSetUpForm() {
         // dispatch(actions.setCalorieNeeds(calorieNeeds))
 
         return (
-            <>
+            <div className={classes.form_container}>
                 <CaloriePreview
                     step={step}
                     setStep={setStep}
@@ -110,10 +133,16 @@ export default function ProfileSetUpForm() {
                     calorieNeeds={calorieNeeds}
                     percentage={percentage}
                 />
-                <Button variant="contained" color="primary" onClick={handleFinish}>
-                    Finish
-            </Button>
-            </>
+                <div>
+                    <Button variant="contained" onClick={() => setStep(step - 1)}>
+                        Prev
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={handleFinish}>
+                        Finish
+                    </Button>
+                </div>
+
+            </div>
         )
     }
 

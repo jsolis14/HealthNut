@@ -39,12 +39,15 @@ function ActivityInfo({ activityFactor, setActivityFactor, step, setStep }) {
                     <FormControlLabel value={"1.9"} control={<Radio />} label="extra active (very hard exercise/sports & physical job or 2x training)" />
                 </RadioGroup>
             </FormControl >
-            <Button variant="contained" onClick={handlePrev}>
-                Prev
+            <div>
+                <Button variant="contained" onClick={handlePrev}>
+                    Prev
             </Button>
-            <Button variant="contained" color="primary" onClick={handleNext}>
-                Next
+                <Button variant="contained" color="primary" onClick={handleNext}>
+                    Next
             </Button>
+            </div>
+
         </>
     )
 }

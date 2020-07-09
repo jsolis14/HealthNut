@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-end',
         marginTop: '15px',
+    },
+    modal: {
+        display: 'flex',
+        justifyContent: 'center'
     }
 }));
 
@@ -70,7 +74,7 @@ export default function SimpleModal() {
     );
 
     return (
-        <div>
+        <div className={classes.modal_container}>
             <div className={classes.button_container}>
                 <Tooltip title="Add Food" aria-label="add" onClick={() => setOpen(true)}>
                     <Fab color="primary" size='small' className={classes.fab}>
@@ -102,21 +106,3 @@ export default function SimpleModal() {
 
     );
 }
-// {/* <div className={classes.addButton}>
-//             {/* <Tooltip title="Add Food" aria-label="add" onClick={() => setOpen(true)}>
-//                 <Fab color="primary" size='small' className={classes.fab}>
-//                     <AddIcon />
-//                 </Fab>
-//             </Tooltip> */}
-//             <Modal
-//                 open={true}
-//                 onClose={handleClose}
-//                 aria-labelledby="simple-modal-title"
-//                 aria-describedby="simple-modal-description"
-//             >
-//                 <div className={classes.paper}>
-//                     <FoodForm />
-//                 </div>
-
-//             </Modal>
-//         </div> */}

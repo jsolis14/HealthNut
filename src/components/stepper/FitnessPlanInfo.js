@@ -40,12 +40,15 @@ export default function FitnessPlanInfo({ fitnessPlan, setFitnessPlan, step, set
 
                 </RadioGroup>
             </FormControl>
-            <Button variant="contained" onClick={handlePrev}>
-                Prev
-        </Button>
-            <Button variant="contained" color="primary" onClick={handleNext}>
-                Next
-        </Button>
+            <div>
+                <Button variant="contained" onClick={handlePrev}>
+                    Prev
+                </Button>
+                <Button variant="contained" color="primary" onClick={handleNext}>
+                    Next
+                </Button>
+            </div>
+
         </>
     );
 }

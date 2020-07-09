@@ -58,12 +58,6 @@ function CaloriePreview({ step, setStep, calorieLimit, calorieNeeds, percentage 
                     numerator={calorieLimit}
                     divisor={calorieNeeds} />
             </div>
-            <Button variant="contained" onClick={handlePrev}>
-                Prev
-            </Button>
-            {/* <Button variant="contained" color="primary" onClick={handleNext}>
-                Finish
-            </Button> */}
         </>
     )
 }
