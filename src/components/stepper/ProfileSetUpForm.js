@@ -67,7 +67,7 @@ export default function ProfileSetUpForm() {
 
         if (res.ok) {
 
-            window.location.href = 'http://localhost:3000/foods'
+            window.location.href = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/foods' : 'https://master.d2v8iaichtof5r.amplifyapp.com/index.html'
         }
     }
 
