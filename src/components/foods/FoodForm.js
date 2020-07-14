@@ -46,7 +46,7 @@ function FoodForm({ handleClose }) {
     const [protein, set_protein] = useState('');
     const [total_cal, set_total_cal] = useState('');
     const [name, set_name] = useState('');
-    const { user, getTokenSilently } = useAuth('');
+    const { user, getTokenSilently } = useAuth0();
     const dispatch = useDispatch();
 
     async function handleSaveFood() {

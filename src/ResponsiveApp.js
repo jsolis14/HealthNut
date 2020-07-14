@@ -6,12 +6,12 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+
 import MenuIcon from '@material-ui/icons/Menu';
 import AppleIcon from '@material-ui/icons/Apple';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
@@ -30,6 +30,8 @@ import ProfileMenu from './components/navigation/ProfileMenu';
 import ProfileSetUpForm from './components/stepper/ProfileSetUpForm';
 import Foods from './components/foods/foods'
 import CalorieTracker from './components/calorieTracker/CalorieTracker';
+import Meals from './components/meals/Meals';
+
 import { useDispatch, useSelector } from "react-redux";
 const drawerWidth = 240;
 
@@ -81,8 +83,6 @@ function ResponsiveDrawer(props) {
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
     const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
-    const [showProfileSetup, setShowProfileSetup] = useState(false);
-    const [showNutritionLabel, setShowNutritionLabel] = useState(true);
     const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
     const calorieNeeds = useSelector((state) => state.profileInfo.calorieNeeds);
 
@@ -101,10 +101,13 @@ function ResponsiveDrawer(props) {
                         <ListItemText primary={'Foods'} />
                     </ListItem>
                 </Link>
-                <ListItem button key='Meals'>
-                    <ListItemIcon><FastfoodIcon /></ListItemIcon>
-                    <ListItemText primary={'Meals'} />
-                </ListItem>
+                <Link to='/meals' color='inherit' className={classes.menu_links}>
+                    <ListItem button key='Meals'>
+                        <ListItemIcon><FastfoodIcon /></ListItemIcon>
+                        <ListItemText primary={'Meals'} />
+                    </ListItem>
+                </Link>
+
                 <Link to='/calorie-tracker' color='inherit' className={classes.menu_links}>
                     <ListItem button key='Foods'>
                         <ListItemIcon><NoteIcon /></ListItemIcon>
@@ -198,7 +201,9 @@ function ResponsiveDrawer(props) {
                             <PrivateRoute path="/profile" component={Profile} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
                             <PrivateRoute path="/foods" component={Foods} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
                             <PrivateRoute path="/calorie-tracker" component={CalorieTracker} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
+                            <PrivateRoute path='/meals' component={Meals} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
                             <Route path="/set-up" component={ProfileSetUpForm} />
+
                         </Switch>
                     </Router>
                 </div>
