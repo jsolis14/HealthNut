@@ -33,7 +33,6 @@ export default function CalorieTracker() {
     useEffect(() => {
         if (user) {
             getFoodsbyDay()
-            getMealsByDay()
         }
         if (meals.length === 0) {
             getUserMeals()
@@ -65,7 +64,6 @@ export default function CalorieTracker() {
         const tommorow = new Date(date)
         tommorow.setDate(date.getDate() + 1)
         dispatch(actions.setSelectedDate(tommorow))
-
     }
 
     function prevDate() {

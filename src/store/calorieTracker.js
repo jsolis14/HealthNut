@@ -22,6 +22,11 @@ const SET_LUNCH_MEALS = 'SET_LUNCH_MEALS';
 const SET_DINNER_MEALS = 'SET_DINNER_MEALS';
 const SET_SNACK_MEALS = 'SET_SNACK_MEALS';
 
+const ADD_BREAKFAST_MEALS = 'ADD_BREAKFAST_MEALS';
+const ADD_LUNCH_MEALS = 'ADD_LUNCH_MEALS';
+const ADD_DINNER_MEALS = 'ADD_DINNER_MEALS';
+const ADD_SNACK_MEALS = 'ADD_SNACK_MEALS';
+
 const setSelectedDate = (value) => ({ type: SET_SELECTED_DATE, value })
 const addCalorieTrackerFood = (value) => ({ type: ADD_CALORIE_TRACKER_FOOD, value })
 const setFoodIds = (value) => ({ type: SET_FOOD_IDS, value })
@@ -43,6 +48,10 @@ const setLunchMeals = (value) => ({ type: SET_LUNCH_MEALS, value })
 const setDinnerMeals = (value) => ({ type: SET_DINNER_MEALS, value })
 const setSnackMeals = (value) => ({ type: SET_SNACK_MEALS, value })
 
+const addBreakfastMeals = (value) => ({ type: ADD_BREAKFAST_MEALS, value })
+const addLunchMeals = (value) => ({ type: ADD_LUNCH_MEALS, value })
+const addDinnerMeals = (value) => ({ type: ADD_DINNER_MEALS, value })
+const addSnackMeals = (value) => ({ type: ADD_SNACK_MEALS, value })
 export const actions = {
     setSelectedDate,
     addCalorieTrackerFood,
@@ -53,11 +62,22 @@ export const actions = {
     setLunchMeals,
     setDinnerMeals,
     setSnackMeals,
+    setTotalCarbs,
+    setTotalFat,
+    setTotalProtein,
 };
 
 const updateMeals = (token, userId) => {
     return async (dispatch, getState) => {
         const date = getState().calorieTracker.selectedDate
+        let total_cal = getState().calorieTracker.total_cal;
+        let total_carbs = getState().calorieTracker.total_carbs;
+        let total_protein = getState().calorieTracker.total_protein;
+        let total_fat = getState().calorieTracker.total_protein;
+        console.log('from meal cal', total_cal)
+        console.log('from meal carbs', total_carbs)
+        console.log('from meal protein', total_protein)
+        console.log('from meal fat', total_fat)
 
         const res = await fetch(`${api}/calorie-tracker/user/${userId}/meals`, {
             method: 'PATCH',
@@ -69,11 +89,45 @@ const updateMeals = (token, userId) => {
         })
 
         const meals = await res.json()
+        console.log(meals)
         if (meals[1] === 200) {
             dispatch(setBreakfastMeals(meals[0].breakfast_meals))
             dispatch(setLunchMeals(meals[0].lunch_meals))
             dispatch(setDinnerMeals(meals[0].dinner_meals))
             dispatch(setSnackMeals(meals[0].snack_meals))
+
+            meals[0].breakfast_meals.map(meal => {
+                total_cal += meal.total_cal
+                total_fat += meal.total_fat
+                total_carbs += meal.total_carbs
+                total_protein += meal.total_protein
+            })
+
+            meals[0].lunch_meals.map(meal => {
+                total_cal += meal.total_cal
+                total_fat += meal.total_fat
+                total_carbs += meal.total_carbs
+                total_protein += meal.total_protein
+            })
+
+            meals[0].dinner_meals.map(meal => {
+                total_cal += meal.total_cal
+                total_fat += meal.total_fat
+                total_carbs += meal.total_carbs
+                total_protein += meal.total_protein
+            })
+
+            meals[0].snack_meals.map(meal => {
+                total_cal += meal.total_cal
+                total_fat += meal.total_fat
+                total_carbs += meal.total_carbs
+                total_protein += meal.total_protein
+            })
+            console.log(total_cal)
+            dispatch(setTotalCarbs(total_carbs))
+            dispatch(setTotalFat(total_fat))
+            dispatch(setTotalCal(total_cal))
+            dispatch(setTotalProtein(total_protein))
         }
     };
 };
@@ -81,6 +135,14 @@ const updateMeals = (token, userId) => {
 const updateFoods = (token, userId) => {
     return async (dispatch, getState) => {
         const date = getState().calorieTracker.selectedDate
+        let total_cal = getState().calorieTracker.total_cal;
+        let total_carbs = getState().calorieTracker.total_carbs;
+        let total_protein = getState().calorieTracker.total_protein;
+        let total_fat = getState().calorieTracker.total_protein;
+        console.log('from food cal', total_cal)
+        console.log('from food carbs', total_carbs)
+        console.log('from food protein', total_protein)
+        console.log('from food fat', total_fat)
 
         const res = await fetch(`${api}/calorie-tracker/user/${userId}/foods`, {
             method: 'PATCH',
@@ -105,11 +167,6 @@ const updateFoods = (token, userId) => {
                 dispatch(setDinnerIds(food.dinner_foods_ids))
                 dispatch(setSnackIds(food.snack_foods_ids))
                 // dispatch(setCalorieTrackerFoods(foods))
-
-                let total_cal = 0;
-                let total_fat = 0;
-                let total_protein = 0;
-                let total_carbs = 0;
 
                 food.breakfast_foods.forEach(food => {
                     total_cal += food.food.total_cal * food.servings
@@ -144,7 +201,7 @@ const updateFoods = (token, userId) => {
 
                 dispatch(setTotalCal(total_cal))
                 dispatch(setTotalProtein(total_protein))
-
+                dispatch(updateMeals(token, userId))
 
             }
         } catch (e) {
@@ -291,11 +348,15 @@ const initialState = {
     selectedDate: new Date(), breakfast_foods: [], lunch_foods: [],
     dinner_foods: [], snack_foods: [], breakfast_foods_ids: [],
     lunch_foods_ids: [], dinner_foods_ids: [], snack_foods_ids: [],
-    modifiedFoodIds: [], total_cal: 0,
+    modifiedFoodIds: [],
     breakfastMeals: [],
     lunchMeals: [],
     dinnerMeals: [],
     snackMeals: [],
+    total_fat: 0,
+    total_cal: 0,
+    total_protein: 0,
+    total_carbs: 0
 };
 
 function reducer(state = initialState, action) {
@@ -406,31 +467,58 @@ function reducer(state = initialState, action) {
 
             return {
                 ...state,
-                breakfastMeals: [...state.breakfastMeals, ...action.value]
+                breakfastMeals: action.value
             }
         }
         case SET_LUNCH_MEALS: {
 
             return {
                 ...state,
-                lunchMeals: [...state.lunchMeals, ...action.value]
+                lunchMeals: action.value
             }
         }
         case SET_DINNER_MEALS: {
 
             return {
                 ...state,
-                dinnerMeals: [...state.dinnerMeals, ...action.value]
+                dinnerMeals: action.value
             }
         }
         case SET_SNACK_MEALS: {
 
             return {
                 ...state,
-                snackMeals: [...state.snackMeals, ...action.value]
+                snackMeals: action.value
             }
         }
+        case ADD_BREAKFAST_MEALS: {
 
+            return {
+                ...state,
+                breakfastMeals: [...state.breakfastMeals, action.value]
+            }
+        }
+        case ADD_LUNCH_MEALS: {
+
+            return {
+                ...state,
+                lunchMeals: [...state.lunchMeals, action.value]
+            }
+        }
+        case ADD_DINNER_MEALS: {
+
+            return {
+                ...state,
+                dinnerMeals: [...state.dinnerMeals, action.value]
+            }
+        }
+        case ADD_SNACK_MEALS: {
+
+            return {
+                ...state,
+                snackMeals: [...state.snackMeals, action.value]
+            }
+        }
         default: {
             return {
                 ...state,

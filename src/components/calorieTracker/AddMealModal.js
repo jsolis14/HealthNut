@@ -48,6 +48,12 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
     const [value, setValue] = useState('')
     const meals = useSelector((state) => state.meals.meals);
     const date = useSelector((state) => state.calorieTracker.selectedDate);
+
+    let total_cal = useSelector((state) => state.calorieTracker.total_cal);
+    let total_protein = useSelector((state) => state.calorieTracker.total_protein);
+    let total_carbs = useSelector((state) => state.calorieTracker.total_carbs);
+    let total_fat = useSelector((state) => state.calorieTracker.total_fat);
+
     const [errors, setErrors] = useState([])
     const { user, getTokenSilently } = useAuth0();
     const dispatch = useDispatch();
@@ -91,6 +97,17 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
             } else if (body.from === 'snack') {
                 dispatch(calorieTrackerActions.setSnackMeals([meal[0]]))
             }
+
+            total_cal += meal[0].total_cal
+            total_carbs += meal[0].total_carbs
+            total_fat += meal[0].total_fat
+            total_protein += meal[0].total_protein
+
+            dispatch(actions.setTotalCal(total_cal))
+            dispatch(actions.setTotalCarbs(total_carbs))
+            dispatch(actions.setTotalFat(total_fat))
+            dispatch(actions.setTotalProtein(total_protein))
+            setShowMealModal({ from: '', show: false })
         } else {
             setErrors(meal[0])
         }
