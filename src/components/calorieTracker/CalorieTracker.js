@@ -4,6 +4,7 @@ import NavigateBefore from '@material-ui/icons/NavigateBefore'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../store/calorieTracker';
+import { thunks as mealThunks } from '../../store/meals';
 import { thunks as calorieTrackerThunks } from '../../store/calorieTracker';
 import { useAuth0 } from '../../react-auth0-spa';
 
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CalorieTracker() {
     const classes = useStyles();
     const date = useSelector((state) => state.calorieTracker.selectedDate);
+    const meals = useSelector((state) => state.meals.meals);
     // console.log(date)
     const dispatch = useDispatch()
     // const [date, setDate] = useState(new Date())
@@ -29,35 +31,36 @@ export default function CalorieTracker() {
     const { user, getTokenSilently } = useAuth0();
 
     useEffect(() => {
-        if (user) {
+        if (user || meals.length === 0) {
             getFoodsbyDay()
+        }
+        if (meals.length === 0) {
+            getUserMeals()
         }
         // calculateTotalCal()
     }, [date])
 
+    async function getUserMeals() {
+        const token = await getTokenSilently();
+        const userId = user.id
+        dispatch(mealThunks.fetchMeals(token, userId))
+    }
     async function getFoodsbyDay() {
         const token = await getTokenSilently();
 
         const userId = user.id
-        await dispatch(calorieTrackerThunks.updateFoods(token, userId))
-
+        dispatch(calorieTrackerThunks.updateFoods(token, userId))
     }
     async function nextDate() {
         const tommorow = new Date(date)
-        console.log('before', date)
-        console.log(new Date(date))
         tommorow.setDate(date.getDate() + 1)
-        console.log('after', tommorow)
         dispatch(actions.setSelectedDate(tommorow))
 
     }
 
     function prevDate() {
         const yesterday = new Date(date)
-        console.log('before', date)
-        console.log(date.getDate())
         yesterday.setDate(date.getDate() - 1)
-        console.log('after', yesterday)
         dispatch(actions.setSelectedDate(yesterday))
     }
     return (

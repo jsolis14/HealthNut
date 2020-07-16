@@ -17,6 +17,10 @@ const SET_TOTAL_CAL = 'SET_TOTAL_CAL';
 const SET_TOTAL_PROTEIN = 'SET_TOTAL_PROTEIN';
 const SET_TOTAL_CARBS = 'SET_TOTAL_CARBS';
 const SET_TOTAL_FAT = 'SET_TOTAL_FAT';
+const SET_BREAKFAST_MEALS = 'SET_BREAKFAST_MEALS';
+const SET_LUNCH_MEALS = 'SET_LUNCH_MEALS';
+const SET_DINNER_MEALS = 'SET_DINNER_MEALS';
+const SET_SNACK_MEALS = 'SET_SNACK_MEALS';
 
 const setSelectedDate = (value) => ({ type: SET_SELECTED_DATE, value })
 const addCalorieTrackerFood = (value) => ({ type: ADD_CALORIE_TRACKER_FOOD, value })
@@ -34,6 +38,10 @@ const setTotalCal = (value) => ({ type: SET_TOTAL_CAL, value })
 const setTotalProtein = (value) => ({ type: SET_TOTAL_PROTEIN, value })
 const setTotalCarbs = (value) => ({ type: SET_TOTAL_CARBS, value })
 const setTotalFat = (value) => ({ type: SET_TOTAL_FAT, value })
+const setBreakfastMeals = (value) => ({ type: SET_BREAKFAST_MEALS, value })
+const setLunchtMeals = (value) => ({ type: SET_LUNCH_MEALS, value })
+const setDinnerMeals = (value) => ({ type: SET_DINNER_MEALS, value })
+const setSnackMeals = (value) => ({ type: SET_SNACK_MEALS, value })
 
 export const actions = {
     setSelectedDate,
@@ -41,6 +49,10 @@ export const actions = {
     setFoodIds,
     setModifiedFoodIds,
     setTotalCal,
+    setBreakfastMeals,
+    setLunchtMeals,
+    setDinnerMeals,
+    setSnackMeals,
 
 };
 
@@ -256,6 +268,10 @@ const initialState = {
     dinner_foods: [], snack_foods: [], breakfast_foods_ids: [],
     lunch_foods_ids: [], dinner_foods_ids: [], snack_foods_ids: [],
     modifiedFoodIds: [], total_cal: 0,
+    breakfastMeals: [],
+    lunchMeals: [],
+    dinnerMeals: [],
+    snackMeals: [],
 };
 
 function reducer(state = initialState, action) {
@@ -362,6 +378,35 @@ function reducer(state = initialState, action) {
                 total_fat: action.value
             }
         }
+        case SET_BREAKFAST_MEALS: {
+
+            return {
+                ...state,
+                breakfastMeals: [...state.breakfastMeals, action.value]
+            }
+        }
+        case SET_LUNCH_MEALS: {
+
+            return {
+                ...state,
+                lunchMeals: [...state.lunchMeals, action.value]
+            }
+        }
+        case SET_DINNER_MEALS: {
+
+            return {
+                ...state,
+                dinnerMeals: [...state.dinnerMeals, action.value]
+            }
+        }
+        case SET_SNACK_MEALS: {
+
+            return {
+                ...state,
+                snackMeals: [...state.snackMeals, action.value]
+            }
+        }
+
         default: {
             return {
                 ...state,

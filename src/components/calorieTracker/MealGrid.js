@@ -14,6 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AddFoodModal from './AddFoodModal';
 import FoodItem from './FoodItem';
 import { useDispatch, useSelector } from "react-redux";
+import AddMealModal from './AddMealModal';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -55,6 +56,7 @@ export default function MealGrid() {
     const [anchorElDinner, setAnchorElDinner] = React.useState(null);
     const [anchorElSnack, setAnchorElSnack] = React.useState(null);
     const [showModal, setShowModal] = useState({ show: false, from: '' });
+    const [showMealModal, setShowMealModal] = useState({ show: false, from: '' });
     const breakfastFoods = useSelector((state) => state.calorieTracker.breakfast_foods);
     const lunchFoods = useSelector((state) => state.calorieTracker.lunch_foods);
     const dinnerFoods = useSelector((state) => state.calorieTracker.dinner_foods);
@@ -86,7 +88,7 @@ export default function MealGrid() {
                             onClose={() => setAnchorElBreakfast(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'breakfast' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'breakfast' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
@@ -112,7 +114,7 @@ export default function MealGrid() {
                             onClose={() => setAnchorElLunch(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'lunch' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'lunch' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
@@ -138,7 +140,7 @@ export default function MealGrid() {
                             onClose={() => setAnchorElDinner(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'dinner' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'dinner' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
@@ -164,7 +166,7 @@ export default function MealGrid() {
                             onClose={() => setAnchorElSnack(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'snack' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'snack' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
@@ -176,6 +178,7 @@ export default function MealGrid() {
                 </Grid>
             </Grid>
             <AddFoodModal showModal={showModal} setShowModal={setShowModal} />
+            <AddMealModal showMealModal={showMealModal} setShowMealModal={setShowMealModal} />
         </div>
     )
 }
