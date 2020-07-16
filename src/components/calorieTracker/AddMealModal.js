@@ -83,13 +83,13 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
         if (meal[1] === 200) {
             //dispatch
             if (body.from === 'breakfast') {
-                dispatch(calorieTrackerActions.setBreakfastMeals(meal[0]))
+                dispatch(calorieTrackerActions.setBreakfastMeals([meal[0]]))
             } else if (body.from === 'lunch') {
-                dispatch(calorieTrackerActions.setLunchtMeals(meal[0]))
+                dispatch(calorieTrackerActions.setLunchMeals([meal[0]]))
             } else if (body.from === 'dinner') {
-                dispatch(calorieTrackerActions.setDinnerMeals(meal[0]))
+                dispatch(calorieTrackerActions.setDinnerMeals([meal[0]]))
             } else if (body.from === 'snack') {
-                dispatch(calorieTrackerActions.setSnackMeals(meal[0]))
+                dispatch(calorieTrackerActions.setSnackMeals([meal[0]]))
             }
         } else {
             setErrors(meal[0])

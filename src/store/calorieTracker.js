@@ -39,7 +39,7 @@ const setTotalProtein = (value) => ({ type: SET_TOTAL_PROTEIN, value })
 const setTotalCarbs = (value) => ({ type: SET_TOTAL_CARBS, value })
 const setTotalFat = (value) => ({ type: SET_TOTAL_FAT, value })
 const setBreakfastMeals = (value) => ({ type: SET_BREAKFAST_MEALS, value })
-const setLunchtMeals = (value) => ({ type: SET_LUNCH_MEALS, value })
+const setLunchMeals = (value) => ({ type: SET_LUNCH_MEALS, value })
 const setDinnerMeals = (value) => ({ type: SET_DINNER_MEALS, value })
 const setSnackMeals = (value) => ({ type: SET_SNACK_MEALS, value })
 
@@ -50,10 +50,32 @@ export const actions = {
     setModifiedFoodIds,
     setTotalCal,
     setBreakfastMeals,
-    setLunchtMeals,
+    setLunchMeals,
     setDinnerMeals,
     setSnackMeals,
+};
 
+const updateMeals = (token, userId) => {
+    return async (dispatch, getState) => {
+        const date = getState().calorieTracker.selectedDate
+
+        const res = await fetch(`${api}/calorie-tracker/user/${userId}/meals`, {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ 'day': [date.getFullYear(), date.getMonth() + 1, date.getDate()] }),
+        })
+
+        const meals = await res.json()
+        if (meals[1] === 200) {
+            dispatch(setBreakfastMeals(meals[0].breakfast_meals))
+            dispatch(setLunchMeals(meals[0].lunch_meals))
+            dispatch(setDinnerMeals(meals[0].dinner_meals))
+            dispatch(setSnackMeals(meals[0].snack_meals))
+        }
+    };
 };
 
 const updateFoods = (token, userId) => {
@@ -116,6 +138,7 @@ const updateFoods = (token, userId) => {
                     total_carbs += food.food.total_carbs * food.servings
                     total_fat += food.food.total_fat * food.servings
                 })
+
                 dispatch(setTotalCarbs(total_carbs))
                 dispatch(setTotalFat(total_fat))
 
@@ -260,7 +283,8 @@ const addFoods = (token, body) => {
 
 export const thunks = {
     addFoods,
-    updateFoods
+    updateFoods,
+    updateMeals
 };
 
 const initialState = {
@@ -382,28 +406,28 @@ function reducer(state = initialState, action) {
 
             return {
                 ...state,
-                breakfastMeals: [...state.breakfastMeals, action.value]
+                breakfastMeals: [...state.breakfastMeals, ...action.value]
             }
         }
         case SET_LUNCH_MEALS: {
 
             return {
                 ...state,
-                lunchMeals: [...state.lunchMeals, action.value]
+                lunchMeals: [...state.lunchMeals, ...action.value]
             }
         }
         case SET_DINNER_MEALS: {
 
             return {
                 ...state,
-                dinnerMeals: [...state.dinnerMeals, action.value]
+                dinnerMeals: [...state.dinnerMeals, ...action.value]
             }
         }
         case SET_SNACK_MEALS: {
 
             return {
                 ...state,
-                snackMeals: [...state.snackMeals, action.value]
+                snackMeals: [...state.snackMeals, ...action.value]
             }
         }
 

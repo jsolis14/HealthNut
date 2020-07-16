@@ -31,12 +31,14 @@ export default function CalorieTracker() {
     const { user, getTokenSilently } = useAuth0();
 
     useEffect(() => {
-        if (user || meals.length === 0) {
+        if (user) {
             getFoodsbyDay()
+            getMealsByDay()
         }
         if (meals.length === 0) {
             getUserMeals()
         }
+
         // calculateTotalCal()
     }, [date])
 
@@ -51,6 +53,14 @@ export default function CalorieTracker() {
         const userId = user.id
         dispatch(calorieTrackerThunks.updateFoods(token, userId))
     }
+
+    async function getMealsByDay() {
+        const token = await getTokenSilently();
+
+        const userId = user.id
+        dispatch(calorieTrackerThunks.updateMeals(token, userId))
+    }
+
     async function nextDate() {
         const tommorow = new Date(date)
         tommorow.setDate(date.getDate() + 1)
