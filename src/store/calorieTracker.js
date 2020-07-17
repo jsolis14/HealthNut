@@ -135,10 +135,10 @@ const updateMeals = (token, userId) => {
 const updateFoods = (token, userId) => {
     return async (dispatch, getState) => {
         const date = getState().calorieTracker.selectedDate
-        let total_cal = getState().calorieTracker.total_cal;
-        let total_carbs = getState().calorieTracker.total_carbs;
-        let total_protein = getState().calorieTracker.total_protein;
-        let total_fat = getState().calorieTracker.total_protein;
+        let total_cal = 0;
+        let total_carbs = 0;
+        let total_protein = 0;
+        let total_fat = 0;
         console.log('from food cal', total_cal)
         console.log('from food carbs', total_carbs)
         console.log('from food protein', total_protein)
