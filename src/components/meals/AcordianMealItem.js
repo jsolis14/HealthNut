@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,7 +23,16 @@ const useStyles = makeStyles((theme) => ({
     },
     food_details: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        [theme.breakpoints.down('xs')]: {
+            padding: '0px'
+        }
+    },
+    table: {
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: '327px',
+            overflow: 'hidden',
+        }
     }
 }));
 
@@ -44,9 +54,16 @@ export default function AcordianMealItem({ meal }) {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="right">Calories</TableCell>
+
                             <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+
+                            <Hidden xsDown>
+                                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                            </Hidden>
+
                             <TableCell align="right">Protein&nbsp;(g)</TableCell>
+
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -56,9 +73,17 @@ export default function AcordianMealItem({ meal }) {
                                     {food.name}
                                 </TableCell>
                                 <TableCell align="right">{food.total_cal}</TableCell>
+
                                 <TableCell align="right">{food.total_fat}</TableCell>
-                                <TableCell align="right">{food.total_carbs}</TableCell>
+
+
+                                <Hidden xsDown>
+                                    <TableCell align="right">{food.total_carbs}</TableCell>
+                                </Hidden>
+
                                 <TableCell align="right">{food.protein}</TableCell>
+
+
                             </TableRow>
                         ))}
                     </TableBody>

@@ -47,7 +47,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-    }
+    },
+    tooltip: {
+        marginBottom: '5px'
+    },
 }));
 
 export default function MealGrid() {
@@ -81,7 +84,7 @@ export default function MealGrid() {
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>BreakFast</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElBreakfast(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElBreakfast(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>
@@ -109,7 +112,7 @@ export default function MealGrid() {
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>Lunch</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElLunch(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElLunch(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>
@@ -137,7 +140,7 @@ export default function MealGrid() {
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>Dinner</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElDinner(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElDinner(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>
@@ -165,7 +168,7 @@ export default function MealGrid() {
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>Snack</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElSnack(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElSnack(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>

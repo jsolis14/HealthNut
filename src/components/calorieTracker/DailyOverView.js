@@ -91,9 +91,9 @@ export default function DailyOverView() {
         const diff = rec - total;
 
         if (diff >= 0) {
-            return `${diff}g left `
+            return `${Math.floor(diff)}g left `
         } else {
-            return `${parseInt(Math.abs(diff))}g over`
+            return `${Math.floor(Math.abs(diff))}g over`
         }
     }
 
