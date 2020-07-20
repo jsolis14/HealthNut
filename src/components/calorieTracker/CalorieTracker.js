@@ -11,6 +11,7 @@ import { useAuth0 } from '../../react-auth0-spa';
 import DailyOverView from './DailyOverView';
 import AddButton from './AddButton';
 import MealGrid from './MealGrid';
+import WeightTracker from '../weightTracker/WeightTracker';
 
 const useStyles = makeStyles((theme) => ({
     calendar_bar: {
@@ -79,6 +80,7 @@ export default function CalorieTracker() {
                 <NavigateNext onClick={nextDate} />
             </div>
             <DailyOverView />
+            <WeightTracker />
             <MealGrid />
             {/* <AddButton setShowAddFood={setShowAddFood} /> */}
             {}
