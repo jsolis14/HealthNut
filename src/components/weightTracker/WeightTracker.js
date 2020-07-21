@@ -7,12 +7,18 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     paper_container: {
         marginBottom: '20px',
-        width: '1100px',
-
     },
     chart: {
         padding: '10px',
-
+        [theme.breakpoints.up('xl')]: {
+            width: '1100px',
+        },
+        [theme.breakpoints.between('md', 'lg')]: {
+            width: '700px',
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '330px',
+        },
     }
 }));
 
@@ -20,6 +26,7 @@ export default function WeightTracker() {
     const classes = useStyles();
     const [weights, setWeights] = useState([])
     const { user, getTokenSilently } = useAuth0();
+    const theme = useTheme();
 
     useEffect(() => {
         if (weights.length === 0) {
@@ -48,7 +55,7 @@ export default function WeightTracker() {
 
     }
 
-    console.log(new Date())
+
 
     let ApexObj = {
         series: [{
@@ -119,7 +126,7 @@ export default function WeightTracker() {
         return (
             <Paper className={classes.paper_container}>
                 <div id="chart" className={classes.chart}>
-                    <ReactApexChart options={ApexObj.options} series={ApexObj.series} type="area" height={350} />
+                    <ReactApexChart options={ApexObj.options} series={ApexObj.series} type="area" height={250} />
                 </div>
             </Paper>
 

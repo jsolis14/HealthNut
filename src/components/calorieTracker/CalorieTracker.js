@@ -12,7 +12,7 @@ import DailyOverView from './DailyOverView';
 import AddButton from './AddButton';
 import MealGrid from './MealGrid';
 import WeightTracker from '../weightTracker/WeightTracker';
-
+import UpdateWeightTracker from '../weightTracker/UpdateWeightTracker';
 const useStyles = makeStyles((theme) => ({
     calendar_bar: {
         display: 'flex',
@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     },
     info_container: {
         display: 'flex',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        flexWrap: 'wrap'
     }
 }));
 
