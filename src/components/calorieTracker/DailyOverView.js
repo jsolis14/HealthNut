@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column-reverse',
         borderTopRightRadius: '100px',
+        width: '330px'
     },
     left_items_conainer: {
         display: 'flex',
@@ -54,6 +55,8 @@ const useStyles = makeStyles((theme) => ({
     },
     main_container: {
         marginBottom: '20px',
+        width: '330px',
+        height: '289px'
     }
 }));
 

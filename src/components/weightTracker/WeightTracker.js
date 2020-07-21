@@ -1,42 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactApexChart from "react-apexcharts";
+import { useAuth0 } from '../../react-auth0-spa';
+import { api } from "../../config";
+import Paper from '@material-ui/core/Paper';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    paper_container: {
+        marginBottom: '20px',
+        width: '1100px',
+
+    },
+    chart: {
+        padding: '10px',
+
+    }
+}));
 
 export default function WeightTracker() {
+    const classes = useStyles();
+    const [weights, setWeights] = useState([])
+    const { user, getTokenSilently } = useAuth0();
+
+    useEffect(() => {
+        if (weights.length === 0) {
+            getWeights()
+        }
+    })
+
+    async function getWeights() {
+        const userId = user.id
+        const token = await getTokenSilently()
+        console.log(token)
+        const res = await fetch(`${api}/weight-tracker/user/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        const weightJson = await res.json()
+
+        if (weightJson[1] === 200) {
+            const weightArr = weightJson[0].map(weight => {
+                return { x: weight.day, y: weight.weight }
+            })
+            setWeights(weightArr);
+        }
+
+    }
+
     console.log(new Date())
-    let dates = [{
-        x: "02-10-2017 GMT",
-        y: 34
-    },
-    {
-        x: "02-11-2017 GMT",
-        y: 43
-    },
-    {
-        x: "02-12-2017 GMT",
-        y: 31
-    },
-    {
-        x: "02-13-2017 GMT",
-        y: 43
-    },
-    {
-        x: "02-14-2017 GMT",
-        y: 33
-    },
-    {
-        x: "02-15-2017 GMT",
-        y: 52
-    }]
+
     let ApexObj = {
         series: [{
             name: 'Weight',
-            data: dates
+            data: weights
         }],
         options: {
             chart: {
                 type: 'area',
                 stacked: false,
-                height: 350,
+                height: 289,
                 zoom: {
                     type: 'x',
                     enabled: true,
@@ -92,12 +115,24 @@ export default function WeightTracker() {
 
     };
 
+    if (weights.length > 0) {
+        return (
+            <Paper className={classes.paper_container}>
+                <div id="chart" className={classes.chart}>
+                    <ReactApexChart options={ApexObj.options} series={ApexObj.series} type="area" height={350} />
+                </div>
+            </Paper>
 
-    return (
+        )
+    } else {
+        return (
+            <div>
+                Looks like you havent logged your weight
+            </div>
+        )
+
+    }
 
 
-        <div id="chart">
-            <ReactApexChart options={ApexObj.options} series={ApexObj.series} type="area" height={350} />
-        </div>
-    )
+
 }

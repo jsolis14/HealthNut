@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
     },
+    info_container: {
+        display: 'flex',
+        justifyContent: 'space-around'
+    }
 }));
 
 export default function CalorieTracker() {
@@ -79,8 +83,11 @@ export default function CalorieTracker() {
                 <div>{`${month[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`}</div>
                 <NavigateNext onClick={nextDate} />
             </div>
-            <DailyOverView />
-            <WeightTracker />
+            <div className={classes.info_container}>
+                <DailyOverView />
+                <WeightTracker />
+            </div>
+
             <MealGrid />
             {/* <AddButton setShowAddFood={setShowAddFood} /> */}
             {}
