@@ -14,6 +14,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AddFoodModal from './AddFoodModal';
 import FoodItem from './FoodItem';
 import { useDispatch, useSelector } from "react-redux";
+import AddMealModal from './AddMealModal';
+import AcordianMealItem from '../meals/AcordianMealItem';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -45,7 +47,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-    }
+    },
+    tooltip: {
+        marginBottom: '5px'
+    },
 }));
 
 export default function MealGrid() {
@@ -55,10 +60,16 @@ export default function MealGrid() {
     const [anchorElDinner, setAnchorElDinner] = React.useState(null);
     const [anchorElSnack, setAnchorElSnack] = React.useState(null);
     const [showModal, setShowModal] = useState({ show: false, from: '' });
+    const [showMealModal, setShowMealModal] = useState({ show: false, from: '' });
     const breakfastFoods = useSelector((state) => state.calorieTracker.breakfast_foods);
     const lunchFoods = useSelector((state) => state.calorieTracker.lunch_foods);
     const dinnerFoods = useSelector((state) => state.calorieTracker.dinner_foods);
     const snackFoods = useSelector((state) => state.calorieTracker.snack_foods);
+    const breakfastMeals = useSelector((state) => state.calorieTracker.breakfastMeals);
+    const lunchMeals = useSelector((state) => state.calorieTracker.lunchMeals);
+    const dinnerMeals = useSelector((state) => state.calorieTracker.dinnerMeals);
+    const snackMeals = useSelector((state) => state.calorieTracker.snackMeals);
+
     const handleClose = () => {
         setAnchorElBreakfast(null);
     };
@@ -73,7 +84,7 @@ export default function MealGrid() {
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>BreakFast</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElBreakfast(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElBreakfast(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>
@@ -86,20 +97,22 @@ export default function MealGrid() {
                             onClose={() => setAnchorElBreakfast(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'breakfast' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'breakfast' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
-                    {breakfastFoods.length !== 0 ?
-                        breakfastFoods.map(food => {
-                            return <FoodItem key={food.food.id} food={food} />
-                        })
-                        : <Paper className={classes.paper}>Looks Like you haven't had breakfast yet</Paper>}
+                    {breakfastFoods.map(food => {
+                        return <FoodItem key={food.food.id} food={food} />
+                    })}
+                    {breakfastMeals.map(meal => {
+                        return <AcordianMealItem key={meal.id} meal={meal} />
+                    })}
+                    {breakfastFoods.length === 0 && breakfastMeals.length === 0 ? <Paper className={classes.paper}>Looks Like you haven't had breakfast yet</Paper> : <></>}
                 </Grid>
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>Lunch</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElLunch(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElLunch(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>
@@ -112,20 +125,22 @@ export default function MealGrid() {
                             onClose={() => setAnchorElLunch(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'lunch' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'lunch' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
-                    {lunchFoods.length !== 0 ?
-                        lunchFoods.map(food => {
-                            return <FoodItem key={food.food.id} food={food} />
-                        })
-                        : <Paper className={classes.paper}>Looks Like you haven't had Lunch yet</Paper>}
+                    {lunchFoods.map(food => {
+                        return <FoodItem key={food.food.id} food={food} />
+                    })}
+                    {lunchMeals.map(meal => {
+                        return <AcordianMealItem key={meal.id} meal={meal} />
+                    })}
+                    {lunchFoods.length === 0 && lunchMeals.length === 0 ? <Paper className={classes.paper}>Looks Like you haven't had lunch yet</Paper> : <></>}
                 </Grid>
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>Dinner</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElDinner(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElDinner(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>
@@ -138,20 +153,22 @@ export default function MealGrid() {
                             onClose={() => setAnchorElDinner(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'dinner' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'dinner' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
-                    {dinnerFoods.length !== 0 ?
-                        dinnerFoods.map(food => {
-                            return <FoodItem key={food.food.id} food={food} />
-                        })
-                        : <Paper className={classes.paper}>Looks Like you haven't had dinner yet</Paper>}
+                    {dinnerFoods.map(food => {
+                        return <FoodItem key={food.food.id} food={food} />
+                    })}
+                    {dinnerMeals.map(meal => {
+                        return <AcordianMealItem key={meal.id} meal={meal} />
+                    })}
+                    {dinnerFoods.length === 0 && dinnerMeals.length === 0 ? <Paper className={classes.paper}>Looks Like you haven't had dinner yet</Paper> : <></>}
                 </Grid>
                 <Grid container item className={classes.meal_container}>
                     <div className={classes.meal_title}>
                         <Typography>Snack</Typography>
-                        <Tooltip title="Add" aria-label="add" onClick={(e) => setAnchorElSnack(e.currentTarget)}>
+                        <Tooltip className={classes.tooltip} title="Add" aria-label="add" onClick={(e) => setAnchorElSnack(e.currentTarget)}>
                             <Fab color="secondary" size="small">
                                 <AddIcon />
                             </Fab>
@@ -164,18 +181,21 @@ export default function MealGrid() {
                             onClose={() => setAnchorElSnack(null)}
                         >
                             <MenuItem onClick={() => setShowModal({ show: true, from: 'snack' })}>Add Food</MenuItem>
-                            <MenuItem onClick={handleClose}>Add Meal</MenuItem>
+                            <MenuItem onClick={() => setShowMealModal({ show: true, from: 'snack' })}>Add Meal</MenuItem>
                         </Menu>
                     </div>
                     {/* list of food items */}
-                    {snackFoods.length !== 0 ?
-                        snackFoods.map(food => {
-                            return <FoodItem key={food.food.id} food={food} />
-                        })
-                        : <Paper className={classes.paper}>Looks Like you haven't had any snacks yet</Paper>}
+                    {snackFoods.map(food => {
+                        return <FoodItem key={food.food.id} food={food} />
+                    })}
+                    {snackMeals.map(meal => {
+                        return <AcordianMealItem key={meal.id} meal={meal} />
+                    })}
+                    {snackFoods.length === 0 && snackMeals.length === 0 ? <Paper className={classes.paper}>Looks Like you haven't had snack yet</Paper> : <></>}
                 </Grid>
             </Grid>
             <AddFoodModal showModal={showModal} setShowModal={setShowModal} />
+            <AddMealModal showMealModal={showMealModal} setShowMealModal={setShowMealModal} />
         </div>
     )
 }
