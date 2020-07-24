@@ -84,8 +84,6 @@ const NavBar = () => {
                                 open={open}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
                                 <MenuItem onClick={() => logout()}>Logout</MenuItem>
                             </Menu>
                         </div>
@@ -94,22 +92,6 @@ const NavBar = () => {
             </AppBar>
         </div>
     )
-    return (
-        <div>
-            {!isAuthenticated && (
-                <button onClick={() => loginWithRedirect({})}>Log in</button>
-            )}
-
-            {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
-
-            {isAuthenticated && (
-                <span>
-                    <Link to="/">Home</Link>&nbsp;
-                    <Link to="/profile">Profile</Link>
-                </span>
-            )}
-        </div>
-    );
 };
 
 export default NavBar;

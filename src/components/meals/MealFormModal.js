@@ -128,8 +128,6 @@ export default function MealFormModal({ foods = [] }) {
                                 </Button>
                             </div>
                         </div> : <p>Looks like you don't have any foods yet, please add a food from the "Foods" tab</p>}
-
-
                     </div>
                 </Fade>
             </Modal>
