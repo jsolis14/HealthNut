@@ -132,19 +132,25 @@ export default function AddFoodModal({ showModal, setShowModal }) {
                 }}
             >
                 <Fade in={showModal.show}>
+
                     <div className={classes.paper}>
-                        <div>
-                            <FormControl component="fieldset">
-                                <FormLabel component="legend">Assign responsibility</FormLabel>
-                                <FormGroup>
-                                    {foods.map(food => <FoodCheckBoxItem key={food.id} food={food} foodIds={foodIds} showModal={showModal} />)}
-                                </FormGroup>
-                            </FormControl>
-                        </div>
-                        <div className={classes.button_container}>
-                            <Button onClick={handleModalClose} variant='contained'>Cancel</Button>
-                            <Button onClick={handleSubmit} color='primary' variant='contained' className={classes.cancel_button}>Submit</Button>
-                        </div>
+                        {foods.length > 0 ?
+                            <div>
+                                <div>
+                                    <FormControl component="fieldset">
+                                        <FormLabel component="legend">Your Foods</FormLabel>
+                                        <FormGroup>
+                                            {foods.map(food => <FoodCheckBoxItem key={food.id} food={food} foodIds={foodIds} showModal={showModal} />)}
+                                        </FormGroup>
+                                    </FormControl>
+                                </div>
+                                <div className={classes.button_container}>
+                                    <Button onClick={handleModalClose} variant='contained'>Cancel</Button>
+                                    <Button onClick={handleSubmit} color='primary' variant='contained' className={classes.cancel_button}>Submit</Button>
+                                </div>
+                            </div> :
+                            <p>Looks like you don't have any foods yet, please add a food from the "Foods" tab</p>}
+
 
                     </div>
                 </Fade>

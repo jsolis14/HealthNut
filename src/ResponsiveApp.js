@@ -114,31 +114,15 @@ function ResponsiveDrawer(props) {
                         <ListItemText primary={'Calorie Tracker'} />
                     </ListItem>
                 </Link>
-                {/* {['Foods', 'Meals', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
 
-                ))} */}
             </List>
-            {/* <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List> */}
+
         </div>
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
-    // if (calorieLimit === null && calorieNeeds == null && user) {
-    //     return <Redirect to='set-up' : />
-    // }
+
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -193,7 +177,7 @@ function ResponsiveDrawer(props) {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <div>
-                    {/* {showProfileSetup ? <ProfileSetUp setShowProfileSetup={setShowProfileSetup} /> : <></>} */}
+
                     <Router history={history}>
 
                         <Switch>

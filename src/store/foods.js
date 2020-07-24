@@ -5,6 +5,7 @@ const ADD_FOOD = 'ADD_FOOD';
 
 const setFoods = (value) => ({ type: SET_FOODS, value })
 const addFood = (value) => ({ type: ADD_FOOD, value })
+
 export const actions = {
     setFoods,
     addFood
@@ -33,27 +34,27 @@ const getFoods = (userId, token) => {
 
 const postFood = (userId, token, body) => {
     return async (dispatch, getState) => {
-        try {
-            const res = await fetch(`${api}/food`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(body),
-            })
+        // try {
+        const res = await fetch(`${api}/food`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        })
 
-            if (res.ok) {
-                const food = await res.json();
+        if (res.ok) {
+            const food = await res.json();
 
-                dispatch(addFood([food[0]]));
-            } else {
-                const foodMsg = await res.json()
-                console.log(foodMsg)
-            }
-        } catch (e) {
-            console.log(e)
+            dispatch(addFood([food[0]]));
+        } else {
+            const foodMsg = await res.json()
+            console.log(foodMsg)
         }
+        // } catch (e) {
+        //     console.log(e)
+        // }
     };
 };
 

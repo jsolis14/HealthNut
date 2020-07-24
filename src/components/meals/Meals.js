@@ -21,7 +21,7 @@ export default function Meals() {
         if (meals.length === 0) {
             retrieveMeals()
         }
-    })
+    }, [JSON.stringify(foods), JSON.stringify(meals)])
 
     async function fetchFoods() {
         const token = await getTokenSilently()

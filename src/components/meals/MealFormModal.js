@@ -12,8 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import Alert from '@material-ui/lab/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth0 } from '../../react-auth0-spa';
-import { thunks, actions } from '../../store/meals';
-
+import { actions } from '../../store/meals';
+import { api } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
     },
     modal: {
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        overflow: 'scroll'
     }
 }));
 
@@ -50,7 +51,7 @@ export default function MealFormModal({ foods = [] }) {
     const [name, setName] = useState('');
     const dispatch = useDispatch();
     const { user, getTokenSilently } = useAuth0();
-    const errors = useSelector((state) => state.meals.errors);
+    const [errors, setErrors] = useState([]);
 
     function close() {
         setOpen(false)
@@ -66,13 +67,25 @@ export default function MealFormModal({ foods = [] }) {
             food_ids: mealArray,
         }
 
-        dispatch(thunks.postMeal(token, body))
 
-        //fix problem
-        if (errors.length === 0) {
+        const res = await fetch(`${api}/meal`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        })
+        const meal = await res.json();
+        if (meal[1] === 200) {
+            console.log(meal[0])
+            dispatch(actions.addMeal(meal[0]))
             setOpen(false)
             setMealArray([])
             setName('')
+        } else {
+
+            setErrors(meal[0])
         }
     }
 
@@ -100,19 +113,21 @@ export default function MealFormModal({ foods = [] }) {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        {errors.length > 0 ? errors.map((error, idx) => <Alert key={idx} severity="error">{error}</Alert>) : <></>}
-                        <TextField id="standard-basic" label="Name" onChange={(e) => setName(e.target.value)} />
-                        {foods.map(food => {
-                            return <MealBoxItem key={food.id} food={food} mealArray={mealArray} setMealArray={setMealArray} />
-                        })}
-                        <div className={classes.button_container}>
-                            <Button className={classes.cancel_button} onClick={() => close()} variant="contained" >
-                                Cancel
-                            </Button>
-                            <Button onClick={() => handleSubmit()} variant="contained" color="primary">
-                                Save Food
-                            </Button>
-                        </div>
+                        {foods.length > 0 ? <div>
+                            {errors.length > 0 ? errors.map((error, idx) => <Alert key={idx} severity="error">{error}</Alert>) : <></>}
+                            <TextField id="standard-basic" label="Name" onChange={(e) => setName(e.target.value)} />
+                            {foods.map(food => {
+                                return <MealBoxItem key={food.id} food={food} mealArray={mealArray} setMealArray={setMealArray} />
+                            })}
+                            <div className={classes.button_container}>
+                                <Button className={classes.cancel_button} onClick={() => close()} variant="contained" >
+                                    Cancel
+                                </Button>
+                                <Button onClick={() => handleSubmit()} variant="contained" color="primary">
+                                    Save Food
+                                </Button>
+                            </div>
+                        </div> : <p>Looks like you don't have any foods yet, please add a food from the "Foods" tab</p>}
                     </div>
                 </Fade>
             </Modal>

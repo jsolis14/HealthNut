@@ -139,13 +139,13 @@ export default function DailyOverView() {
                             </div>
                         </div>
                     </div>
-                    <ProgressBar progress={(total_cal / calorieLimit) * 100}
+                    <ProgressBar progress={calorieLimit - total_cal > 0 ? (total_cal / calorieLimit) * 100 : 100}
                         size={150}
                         strokeWidth={15}
                         circleOneStroke='#d9edfe'
-                        circleTwoStroke='#7ea9e1'
-                        numerator={calorieLimit - total_cal}
-                        divisor={'left'} />
+                        circleTwoStroke={calorieLimit - total_cal > 0 ? '#7ea9e1' : '#f50057'}
+                        numerator={calorieLimit - total_cal > 0 ? calorieLimit - total_cal : `${Math.abs(calorieLimit - total_cal)}`}
+                        divisor={calorieLimit - total_cal > 0 ? 'left' : 'over'} />
                 </div>
             </Paper>
         </div>
