@@ -134,20 +134,21 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
                             {errors.length > 0 ? <Alert severity="error">{errors}</Alert>
                                 : <></>}
                             <FormControl component="fieldset">
-                                <FormLabel component="legend">Gender</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={(e) => setValue(e.target.value)}>
+                                <FormLabel component="legend">Meals</FormLabel>
+                                <RadioGroup aria-label="Meals" name="Meals1" value={value} onChange={(e) => setValue(e.target.value)}>
 
-                                    {meals.map(meal => {
+                                    {meals.length !== 0 ? meals.map(meal => {
                                         return <FormControlLabel key={meal.id} value={meal.id.toString()} control={<Radio />} label={`${meal.name} cal: ${meal.total_cal}`} />
-                                    })}
+                                    }) : <p>Looks like you don't have any meals yet, please add a meal from the "Meals" tab</p>}
 
                                 </RadioGroup>
                             </FormControl>
                         </div>
-                        <div className={classes.button_container}>
+                        {meals.length !== 0 ? <div className={classes.button_container}>
                             <Button onClick={handleModalClose} variant='contained'>Cancel</Button>
                             <Button onClick={onSubmit} color='primary' variant='contained' className={classes.cancel_button}>Submit</Button>
-                        </div>
+                        </div> : <></>}
+
                     </div>
                 </Fade>
             </Modal>

@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
     },
     modal: {
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        overflow: 'scroll'
     }
 }));
 
@@ -112,19 +113,23 @@ export default function MealFormModal({ foods = [] }) {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        {errors.length > 0 ? errors.map((error, idx) => <Alert key={idx} severity="error">{error}</Alert>) : <></>}
-                        <TextField id="standard-basic" label="Name" onChange={(e) => setName(e.target.value)} />
-                        {foods.map(food => {
-                            return <MealBoxItem key={food.id} food={food} mealArray={mealArray} setMealArray={setMealArray} />
-                        })}
-                        <div className={classes.button_container}>
-                            <Button className={classes.cancel_button} onClick={() => close()} variant="contained" >
-                                Cancel
-                            </Button>
-                            <Button onClick={() => handleSubmit()} variant="contained" color="primary">
-                                Save Food
-                            </Button>
-                        </div>
+                        {foods.length > 0 ? <div>
+                            {errors.length > 0 ? errors.map((error, idx) => <Alert key={idx} severity="error">{error}</Alert>) : <></>}
+                            <TextField id="standard-basic" label="Name" onChange={(e) => setName(e.target.value)} />
+                            {foods.map(food => {
+                                return <MealBoxItem key={food.id} food={food} mealArray={mealArray} setMealArray={setMealArray} />
+                            })}
+                            <div className={classes.button_container}>
+                                <Button className={classes.cancel_button} onClick={() => close()} variant="contained" >
+                                    Cancel
+                                </Button>
+                                <Button onClick={() => handleSubmit()} variant="contained" color="primary">
+                                    Save Food
+                                </Button>
+                            </div>
+                        </div> : <p>Looks like you don't have any foods yet, please add a food from the "Foods" tab</p>}
+
+
                     </div>
                 </Fade>
             </Modal>
