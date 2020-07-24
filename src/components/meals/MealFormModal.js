@@ -12,8 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import Alert from '@material-ui/lab/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth0 } from '../../react-auth0-spa';
-import { thunks, actions } from '../../store/meals';
-
+import { actions } from '../../store/meals';
+import { api } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,7 +50,7 @@ export default function MealFormModal({ foods = [] }) {
     const [name, setName] = useState('');
     const dispatch = useDispatch();
     const { user, getTokenSilently } = useAuth0();
-    const errors = useSelector((state) => state.meals.errors);
+    const [errors, setErrors] = useState([]);
 
     function close() {
         setOpen(false)
@@ -66,13 +66,25 @@ export default function MealFormModal({ foods = [] }) {
             food_ids: mealArray,
         }
 
-        dispatch(thunks.postMeal(token, body))
 
-        //fix problem
-        if (errors.length === 0) {
+        const res = await fetch(`${api}/meal`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        })
+        const meal = await res.json();
+        if (meal[1] === 200) {
+            console.log(meal[0])
+            dispatch(actions.addMeal(meal[0]))
             setOpen(false)
             setMealArray([])
             setName('')
+        } else {
+
+            setErrors(meal[0])
         }
     }
 

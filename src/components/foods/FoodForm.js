@@ -7,8 +7,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import { api } from '../../config';
 import { useAuth0 } from '../../react-auth0-spa';
-import { thunks } from '../../store/foods';
+import { actions } from '../../store/foods';
 import { useDispatch, useSelector } from "react-redux";
+import Alert from '@material-ui/lab/Alert';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -35,17 +36,18 @@ const useStyles = makeStyles((theme) => ({
 
 function FoodForm({ handleClose }) {
     const classes = useStyles();
-    const [total_fat, set_total_fat] = useState('');
-    const [saturated_fat, set_saturated_fat] = useState('');
-    const [trans_fat, set_trans_fat] = useState('');
-    const [cholesterol, set_cholesterol] = useState('');
-    const [sodium, set_sodium] = useState('');
-    const [total_carbs, set_total_carbs] = useState('');
-    const [dietary_fiber, set_dietary_fiber] = useState('');
-    const [sugars, set_sugars] = useState('');
-    const [protein, set_protein] = useState('');
-    const [total_cal, set_total_cal] = useState('');
+    const [total_fat, set_total_fat] = useState(0);
+    const [saturated_fat, set_saturated_fat] = useState(0);
+    const [trans_fat, set_trans_fat] = useState(0);
+    const [cholesterol, set_cholesterol] = useState(0);
+    const [sodium, set_sodium] = useState(0);
+    const [total_carbs, set_total_carbs] = useState(0);
+    const [dietary_fiber, set_dietary_fiber] = useState(0);
+    const [sugars, set_sugars] = useState(0);
+    const [protein, set_protein] = useState(0);
+    const [total_cal, set_total_cal] = useState(0);
     const [name, set_name] = useState('');
+    const [errors, setErrors] = useState([]);
     const { user, getTokenSilently } = useAuth0();
     const dispatch = useDispatch();
 
@@ -53,31 +55,49 @@ function FoodForm({ handleClose }) {
         const user_id = user.id
         const body = {
             name,
-            total_fat,
-            saturated_fat,
-            trans_fat,
-            cholesterol,
-            sodium,
-            total_carbs,
-            dietary_fiber,
-            sugars,
-            protein,
-            total_cal,
+            total_fat: parseInt(total_fat) || 0,
+            saturated_fat: parseInt(saturated_fat) || 0,
+            trans_fat: parseInt(trans_fat) || 0,
+            cholesterol: parseInt(cholesterol) || 0,
+            sodium: parseInt(sodium) || 0,
+            total_carbs: parseInt(total_carbs) || 0,
+            dietary_fiber: parseInt(dietary_fiber) || 0,
+            sugars: parseInt(sugars) || 0,
+            protein: parseInt(protein) || 0,
+            total_cal: parseInt(total_cal) || 0,
             user_id
         }
-        const userId = user.id
+
         const token = await getTokenSilently();
-        dispatch(thunks.postFood(userId, token, body))
 
-        //change this later
-        handleClose(false)
+        const res = await fetch(`${api}/food`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        })
+        const food = await res.json();
+        if (food[1] === 201) {
+            dispatch(actions.addFood([food[0]]));
+            handleClose(false);
+        } else {
+            setErrors(food[0])
+        }
+    }
 
+    function handleChange(e, cb) {
+        if (!isNaN(e.target.value)) {
+            cb(e.target.value)
+        }
     }
 
     return (
 
         <div className={classes.form_container}>
             <FormControl className={classes.margin, classes.withoutLabel, classes.textField}>
+                {errors.length > 0 ? errors.map((error, idx) => <Alert key={idx} severity="error">{error}</Alert>) : <></>}
                 <Input
                     id="standard-adornment-name"
                     value={name}
@@ -95,7 +115,7 @@ function FoodForm({ handleClose }) {
                     id="standard-adornment-calories"
                     value={total_cal}
                     required
-                    onChange={e => set_total_cal(e.target.value)}
+                    onChange={e => handleChange(e, set_total_cal)}
                     endAdornment={<InputAdornment position="end">Cal</InputAdornment>}
                     aria-describedby="Enter total Calories"
                     inputProps={{
@@ -109,7 +129,7 @@ function FoodForm({ handleClose }) {
                     id="standard-adornment-total-fat"
                     value={total_fat}
                     required
-                    onChange={e => set_total_fat(e.target.value)}
+                    onChange={e => handleChange(e, set_total_fat)}
                     endAdornment={<InputAdornment position="end">g</InputAdornment>}
                     aria-describedby="Enter total Fat"
                     inputProps={{
@@ -122,7 +142,7 @@ function FoodForm({ handleClose }) {
                 <Input
                     id="standard-adornment-saturated-fat"
                     value={saturated_fat}
-                    onChange={e => set_saturated_fat(e.target.value)}
+                    onChange={e => handleChange(e, set_saturated_fat)}
                     endAdornment={<InputAdornment position="end">g</InputAdornment>}
                     aria-describedby="Enter Saturated Fat"
                     inputProps={{
@@ -135,7 +155,7 @@ function FoodForm({ handleClose }) {
                 <Input
                     id="standard-adornment-trans-fat"
                     value={trans_fat}
-                    onChange={e => set_trans_fat(e.target.value)}
+                    onChange={e => handleChange(e, set_trans_fat)}
                     endAdornment={<InputAdornment position="end">g</InputAdornment>}
                     aria-describedby="Enter trans Fat"
                     inputProps={{
@@ -148,7 +168,7 @@ function FoodForm({ handleClose }) {
                 <Input
                     id="standard-adornment-cholestorol"
                     value={cholesterol}
-                    onChange={e => set_cholesterol(e.target.value)}
+                    onChange={e => handleChange(e, set_cholesterol)}
                     endAdornment={<InputAdornment position="end">mg</InputAdornment>}
                     aria-describedby="Enter cholesterol"
                     inputProps={{
@@ -161,7 +181,7 @@ function FoodForm({ handleClose }) {
                 <Input
                     id="standard-adornment-sodium"
                     value={sodium}
-                    onChange={e => set_sodium(e.target.value)}
+                    onChange={e => handleChange(e, set_sodium)}
                     endAdornment={<InputAdornment position="end">mg</InputAdornment>}
                     aria-describedby="Enter sodium"
                     inputProps={{
@@ -175,7 +195,7 @@ function FoodForm({ handleClose }) {
                     id="standard-adornment-total-carbs"
                     value={total_carbs}
                     required
-                    onChange={e => set_total_carbs(e.target.value)}
+                    onChange={e => handleChange(e, set_total_carbs)}
                     endAdornment={<InputAdornment position="end">g</InputAdornment>}
                     aria-describedby="Enter total carbs"
                     inputProps={{
@@ -188,7 +208,7 @@ function FoodForm({ handleClose }) {
                 <Input
                     id="standard-adornment-dietary-fiber"
                     value={dietary_fiber}
-                    onChange={e => set_dietary_fiber(e.target.value)}
+                    onChange={e => handleChange(e, set_dietary_fiber)}
                     endAdornment={<InputAdornment position="end">g</InputAdornment>}
                     aria-describedby="Enter dietary fiber"
                     inputProps={{
@@ -201,7 +221,7 @@ function FoodForm({ handleClose }) {
                 <Input
                     id="standard-adornment-sugars"
                     value={sugars}
-                    onChange={e => set_sugars(e.target.value)}
+                    onChange={e => handleChange(e, set_sugars)}
                     endAdornment={<InputAdornment position="end">g</InputAdornment>}
                     aria-describedby="Enter sugars"
                     inputProps={{
@@ -215,7 +235,7 @@ function FoodForm({ handleClose }) {
                     id="protein-adornment-total-fat"
                     value={protein}
                     required
-                    onChange={e => set_protein(e.target.value)}
+                    onChange={e => handleChange(e, set_protein)}
                     endAdornment={<InputAdornment position="end">g</InputAdornment>}
                     aria-describedby="Enter protein"
                     inputProps={{

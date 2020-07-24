@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
     },
     form_button: {
         marginRight: '5px'
+    },
+    info_text: {
+        textAlign: 'center',
     }
 }));
 
@@ -177,7 +180,7 @@ export default function WeightTracker() {
     };
 
 
-    const WeightForm = () => {
+    const WeightForm = ({ showSkip }) => {
         const [formWeight, setFormWeight] = useState(weight)
         async function submitWeight() {
             const userId = user.id
@@ -248,9 +251,10 @@ export default function WeightTracker() {
         )
     } else {
         return (
-            <div>
-                Looks like you havent logged your weight
-            </div>
+            <Paper className={classes.paper_container}>
+                <p className={classes.info_text}>Looks like you haven't logged your weight yet, log your weight to view the graph</p>
+                <WeightForm />
+            </Paper>
         )
 
     }
