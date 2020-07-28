@@ -16,6 +16,7 @@ const PrivateRoute = ({ component: Component, path, calorieLimit, calorieNeeds, 
             await loginWithRedirect({
                 appState: { targetUrl: window.location.pathname }
             });
+            console.log(window.location.pathname)
         };
         fn();
     }, [loading, isAuthenticated, loginWithRedirect, path]);
@@ -23,7 +24,7 @@ const PrivateRoute = ({ component: Component, path, calorieLimit, calorieNeeds, 
     const render = props =>
         isAuthenticated === true ? <Component {...props} /> : null;
 
-    return ((calorieNeeds && calorieLimit) ? <Route path={path} render={(rest) => render(rest)} {...rest} /> : <Redirect to='/set-up' />);
+    return ((calorieNeeds && calorieLimit && isAuthenticated) ? <Route path={path} render={(rest) => render(rest)} {...rest} /> : <Redirect to='/set-up' />);
 };
 
 export default PrivateRoute;

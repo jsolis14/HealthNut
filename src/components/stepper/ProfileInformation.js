@@ -50,7 +50,7 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
                     id="standard-adornment-height"
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
-                    endAdornment={<InputAdornment position="end">Ex 6'1"</InputAdornment>}
+                    endAdornment={<InputAdornment position="end">Ex 6.1</InputAdornment>}
                     aria-describedby="standard-height-helper-text"
                     inputProps={{
                         'aria-label': 'height',

@@ -31,8 +31,10 @@ import ProfileSetUpForm from './components/stepper/ProfileSetUpForm';
 import Foods from './components/foods/foods'
 import CalorieTracker from './components/calorieTracker/CalorieTracker';
 import Meals from './components/meals/Meals';
-
+import ProtectedRoute from './components/ProtectedRoute';
+import LoginPage from './components/loginPage/LoginPage';
 import { useDispatch, useSelector } from "react-redux";
+import HomeRoute from './components/HomeRoute';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -181,13 +183,13 @@ function ResponsiveDrawer(props) {
                     <Router history={history}>
 
                         <Switch>
-                            <Route path="/" exact>{calorieLimit === null && calorieNeeds == null && user ? <Redirect to='/set-up' /> : <></>} </Route>
+                            <HomeRoute path="/" exact />
                             <PrivateRoute path="/profile" component={Profile} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
                             <PrivateRoute path="/foods" component={Foods} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
                             <PrivateRoute path="/calorie-tracker" component={CalorieTracker} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
                             <PrivateRoute path='/meals' component={Meals} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
-                            <Route path="/set-up" component={ProfileSetUpForm} />
-
+                            <ProtectedRoute path="/set-up" component={ProfileSetUpForm} />
+                            <Route path='/login' component={LoginPage} />
                         </Switch>
                     </Router>
                 </div>

@@ -10,7 +10,7 @@ import { actions } from '../../store/profile';
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCalorieLimit, calculateBMR, calculateDailyCalorieNeeds } from '../../tools';
 import { api } from '../../config';
-
+import { Redirect } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     form_container: {
         display: 'flex',
@@ -28,6 +28,8 @@ export default function ProfileSetUpForm() {
     const [gender, setGender] = useState(null);
     const [activityFactor, setActivityFactor] = useState(null)
     const [fitnessPlan, setFitnessPlan] = useState(null)
+    const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
+    const calorieNeeds = useSelector((state) => state.profileInfo.calorieNeeds);
     const { user, getTokenSilently } = useAuth0();
     const dispatch = useDispatch();
 
@@ -70,7 +72,9 @@ export default function ProfileSetUpForm() {
             window.location.href = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/foods' : 'https://master.d2v8iaichtof5r.amplifyapp.com/index.html'
         }
     }
-
+    if (calorieNeeds && calorieLimit) {
+        return <Redirect to='/calorie-tracker' />
+    }
     if (step === 1) {
         return (
             <div className={classes.form_container}>
