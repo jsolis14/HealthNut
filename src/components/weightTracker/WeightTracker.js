@@ -72,7 +72,7 @@ export default function WeightTracker() {
     async function getWeights() {
         const userId = user.id
         const token = await getTokenSilently()
-        console.log(token)
+
         const res = await fetch(`${api}/weight-tracker/user/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -105,7 +105,7 @@ export default function WeightTracker() {
         })
 
         const data = await res.json();
-        console.log(data)
+
         if (data[1] === 200) {
             setWeight(data[0].weight)
         } else if (data[1] === 204) {
@@ -196,7 +196,7 @@ export default function WeightTracker() {
             })
 
             const data = await res.json();
-            console.log(data)
+
             if (data[1] === 200) {
                 setWeight(data[0].weight)
                 getWeights()
@@ -205,8 +205,12 @@ export default function WeightTracker() {
         }
 
         function weightChange(e) {
-            if (parseInt(e.target.value) !== NaN) {
+            let value = parseInt(e.target.value)
+            if (!isNaN(value)) {
                 setFormWeight(parseInt(e.target.value))
+            } else {
+                value = ''
+                setFormWeight(value)
             }
         }
 

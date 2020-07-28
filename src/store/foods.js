@@ -50,11 +50,9 @@ const postFood = (userId, token, body) => {
             dispatch(addFood([food[0]]));
         } else {
             const foodMsg = await res.json()
-            console.log(foodMsg)
+
         }
-        // } catch (e) {
-        //     console.log(e)
-        // }
+
     };
 };
 

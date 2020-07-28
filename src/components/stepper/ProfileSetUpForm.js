@@ -32,7 +32,7 @@ export default function ProfileSetUpForm() {
     const dispatch = useDispatch();
 
     async function handleFinish() {
-        console.log('submitted')
+
 
         const bmr = calculateBMR(gender, weight, height, age)
         const calorieNeeds = parseInt(calculateDailyCalorieNeeds(bmr, activityFactor))

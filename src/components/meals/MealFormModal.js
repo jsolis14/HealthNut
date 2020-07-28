@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
     modal: {
         display: 'flex',
         justifyContent: 'center',
-        overflow: 'scroll'
+        overflow: 'scroll',
+        alignItems: 'center',
     }
 }));
 
@@ -78,7 +79,7 @@ export default function MealFormModal({ foods = [] }) {
         })
         const meal = await res.json();
         if (meal[1] === 200) {
-            console.log(meal[0])
+
             dispatch(actions.addMeal(meal[0]))
             setOpen(false)
             setMealArray([])
@@ -124,7 +125,7 @@ export default function MealFormModal({ foods = [] }) {
                                     Cancel
                                 </Button>
                                 <Button onClick={() => handleSubmit()} variant="contained" color="primary">
-                                    Save Food
+                                    Save Meal
                                 </Button>
                             </div>
                         </div> : <p>Looks like you don't have any foods yet, please add a food from the "Foods" tab</p>}

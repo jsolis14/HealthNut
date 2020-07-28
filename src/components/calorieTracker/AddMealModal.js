@@ -111,7 +111,7 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
         } else {
             setErrors(meal[0])
         }
-        console.log(body)
+
     }
 
     return (

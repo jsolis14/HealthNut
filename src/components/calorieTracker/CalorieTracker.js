@@ -29,9 +29,9 @@ export default function CalorieTracker() {
     const classes = useStyles();
     const date = useSelector((state) => state.calorieTracker.selectedDate);
     const meals = useSelector((state) => state.meals.meals);
-    // console.log(date)
+
     const dispatch = useDispatch()
-    // const [date, setDate] = useState(new Date())
+
     const [showAddFood, setShowAddFood] = useState(false);
     const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const { user, getTokenSilently } = useAuth0();

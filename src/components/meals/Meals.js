@@ -25,13 +25,13 @@ export default function Meals() {
 
     async function fetchFoods() {
         const token = await getTokenSilently()
-        console.log(token)
+
         dispatch(foodThunks.getFoods(user.id, token))
     }
 
     async function retrieveMeals() {
         const token = await getTokenSilently()
-        console.log(token)
+
         dispatch(mealThunks.fetchMeals(token, user.id))
     }
 

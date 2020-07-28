@@ -74,10 +74,7 @@ const updateMeals = (token, userId) => {
         let total_carbs = getState().calorieTracker.total_carbs;
         let total_protein = getState().calorieTracker.total_protein;
         let total_fat = getState().calorieTracker.total_protein;
-        console.log('from meal cal', total_cal)
-        console.log('from meal carbs', total_carbs)
-        console.log('from meal protein', total_protein)
-        console.log('from meal fat', total_fat)
+
 
         const res = await fetch(`${api}/calorie-tracker/user/${userId}/meals`, {
             method: 'PATCH',
@@ -89,7 +86,7 @@ const updateMeals = (token, userId) => {
         })
 
         const meals = await res.json()
-        console.log(meals)
+
         if (meals[1] === 200) {
             dispatch(setBreakfastMeals(meals[0].breakfast_meals))
             dispatch(setLunchMeals(meals[0].lunch_meals))
@@ -123,7 +120,7 @@ const updateMeals = (token, userId) => {
                 total_carbs += meal.total_carbs
                 total_protein += meal.total_protein
             })
-            console.log(total_cal)
+
             dispatch(setTotalCarbs(total_carbs))
             dispatch(setTotalFat(total_fat))
             dispatch(setTotalCal(total_cal))
@@ -139,10 +136,7 @@ const updateFoods = (token, userId) => {
         let total_carbs = 0;
         let total_protein = 0;
         let total_fat = 0;
-        console.log('from food cal', total_cal)
-        console.log('from food carbs', total_carbs)
-        console.log('from food protein', total_protein)
-        console.log('from food fat', total_fat)
+
 
         const res = await fetch(`${api}/calorie-tracker/user/${userId}/foods`, {
             method: 'PATCH',

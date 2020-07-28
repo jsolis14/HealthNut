@@ -27,11 +27,10 @@ const postMeal = (token, body) => {
         })
         const meal = await res.json();
         if (meal[1] === 200) {
-            console.log(meal[0])
+
             dispatch(addMeal(meal[0]))
         } else {
-            console.log('errors were made')
-            console.log(meal[0])
+
             dispatch(addError(meal[0]))
         }
     };
@@ -47,11 +46,10 @@ const fetchMeals = (token, userId) => {
         })
         const meal = await res.json();
         if (meal[1] === 200) {
-            console.log(meal[0])
+
             dispatch(getMeals(meal[0]))
         } else {
-            console.log('errors were made')
-            console.log(meal[0])
+
             dispatch(addError(meal[0]))
         }
     };

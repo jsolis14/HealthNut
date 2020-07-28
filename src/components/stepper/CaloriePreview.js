@@ -36,7 +36,7 @@ function CaloriePreview({ step, setStep, calorieLimit, calorieNeeds, percentage 
     // }, [calorieLimit, calorieNeeds, bmr])
 
     function handleNext() {
-        console.log('submitted')
+
     }
 
     function handlePrev() {

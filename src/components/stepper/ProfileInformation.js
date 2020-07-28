@@ -18,7 +18,7 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
 
     function handleNext() {
         setError('')
-        console.log(height.split('.'))
+
         const heightArr = height.split('.');
         const feet = heightArr[0];
         const inches = heightArr[1];

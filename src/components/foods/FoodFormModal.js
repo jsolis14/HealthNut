@@ -46,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
     modal: {
         display: 'flex',
         justifyContent: 'center',
-        overflow: 'scroll'
+        overflow: 'scroll',
+        alignItems: 'center'
     }
 }));
 

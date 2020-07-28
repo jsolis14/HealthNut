@@ -9,8 +9,7 @@ const PrivateRoute = ({ component: Component, path, calorieLimit, calorieNeeds, 
     // const calorieNeeds = useSelector((state) => state.profileInfo.caloriNeeds);
     useEffect(() => {
         if (loading || isAuthenticated) {
-            console.log(calorieLimit)
-            console.log(calorieNeeds)
+
             return;
         }
         const fn = async () => {
