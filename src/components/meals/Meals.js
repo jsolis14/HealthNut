@@ -34,15 +34,20 @@ export default function Meals() {
 
         dispatch(mealThunks.fetchMeals(token, user.id))
     }
-
-    return (
-        <div>
+    let ele = (<div>
+        <div>Looks like you haven't added any meals yet. Please add a meal.</div>
+        <MealFormModal foods={foods} />
+    </div>
+    )
+    if (meals.length > 0) {
+        ele = (<div>
             <div>
                 {meals.map(meal => {
                     return <AcordianMealItem key={meal.id} meal={meal} />
                 })}
             </div>
             <MealFormModal foods={foods} />
-        </div>
-    )
+        </div>)
+    }
+    return ele;
 }
