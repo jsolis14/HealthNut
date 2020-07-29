@@ -181,7 +181,6 @@ function ResponsiveDrawer(props) {
                 <div>
 
                     <Router history={history}>
-
                         <Switch>
                             <HomeRoute path="/" exact />
                             <PrivateRoute path="/profile" component={Profile} calorieLimit={calorieLimit} calorieNeeds={calorieNeeds} />
