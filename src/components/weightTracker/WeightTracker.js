@@ -42,10 +42,15 @@ const useStyles = makeStyles((theme) => ({
         height: '100%'
     },
     form_item: {
-        margin: '10px 0px'
+        margin: '10px 0px',
+        [theme.breakpoints.down('sm')]: {
+            display: 'flex',
+            flexDirection: 'column',
+        }
+
     },
     form_button: {
-        marginRight: '5px'
+        margin: '5px'
     },
     info_text: {
         textAlign: 'center',
@@ -233,7 +238,7 @@ export default function WeightTracker() {
                 </div>
                 <div className={classes.form_item}>
                     <Button className={classes.form_button} variant="contained" onClick={() => setShowForm(false)}>{weight ? 'Go to chart ' : 'Skip logging for today'}</Button>
-                    <Button variant="contained" onClick={submitWeight} color="primary">
+                    <Button className={classes.form_button} variant="contained" onClick={submitWeight} color="primary">
                         {weight ? 'Update Weight' : 'Log Weight'}
                     </Button>
                 </div>
