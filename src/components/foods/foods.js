@@ -20,6 +20,7 @@ import FoodFormModal from './FoodFormModal';
 import { useDispatch, useSelector } from "react-redux";
 import { thunks } from '../../store/foods';
 import { useAuth0 } from '../../react-auth0-spa';
+
 const useStyles1 = makeStyles((theme) => ({
     root: {
         flexShrink: 0,
@@ -88,26 +89,6 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-    return { name, calories, fat };
-}
-
-const rows = [
-    createData('Cupcake', 305, 3.7),
-    createData('Donut', 452, 25.0),
-    createData('Eclair', 262, 16.0),
-    createData('Frozen yoghurt', 159, 6.0),
-    createData('Gingerbread', 356, 16.0),
-    createData('Honeycomb', 408, 3.2),
-    createData('Ice cream sandwich', 237, 9.0),
-    createData('Jelly Bean', 375, 0.0),
-    createData('KitKat', 518, 26.0),
-    createData('Lollipop', 392, 0.2),
-    createData('Marshmallow', 318, 0),
-    createData('Nougat', 360, 19.0),
-    createData('Oreo', 437, 18.0),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
 const useStyles2 = makeStyles({
     table: {
         minWidth: 500,
@@ -118,33 +99,23 @@ export default function CustomPaginationActionsTable() {
     const classes = useStyles2();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [showForm, setShowForm] = useState(false);
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const foods = useSelector((state) => state.foods.foods);
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, foods.length - page * rowsPerPage);
     const { user, getTokenSilently } = useAuth0();
 
     const dispatch = useDispatch();
-    const foods = useSelector((state) => state.foods.foods);
+    async function fetchReq() {
+        if (foods.length === 0 && user) {
 
-    async function getUserInfo() {
-        const token = await getTokenSilently()
+            const userId = user.id
+            const token = await getTokenSilently()
 
-        return { userId: user.id, token }
+            dispatch(thunks.getFoods(userId, token))
+        }
     }
 
     useEffect(() => {
-        async function fetchReq() {
-            if (foods.length === 0 && user) {
-
-                const userId = user.id
-                const token = await getTokenSilently()
-
-                dispatch(thunks.getFoods(userId, token))
-
-
-            }
-        }
         fetchReq()
-
     }, [user])
 
     const handleChangePage = (event, newPage) => {
@@ -158,8 +129,6 @@ export default function CustomPaginationActionsTable() {
 
     return (
         <div>
-
-
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="custom pagination table">
                     <TableHead>
@@ -239,18 +208,18 @@ export default function CustomPaginationActionsTable() {
                             </TableRow>
                         ))}
 
-                        {emptyRows > 0 && (
+                        {/* {emptyRows > 0 && (
                             <TableRow style={{ height: 53 * emptyRows }}>
                                 <TableCell colSpan={6} />
                             </TableRow>
-                        )}
+                        )} */}
                     </TableBody>
                     <TableFooter>
                         <TableRow>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                                 colSpan={3}
-                                count={rows.length}
+                                count={foods.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 SelectProps={{
@@ -267,7 +236,6 @@ export default function CustomPaginationActionsTable() {
                     </TableFooter>
                 </Table>
             </TableContainer>
-            {/* {showForm ? <FoodFormModal /> : null} */}
             <FoodFormModal />
         </div>
     );

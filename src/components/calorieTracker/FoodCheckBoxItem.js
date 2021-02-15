@@ -26,11 +26,10 @@ export default function FoodCheckBoxItem({ food, foodIds = [], showModal, setFoo
     const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
     const classes = useStyles();
 
-    useEffect(() => {
-        onLoad()
-    }, [])
+
 
     function onLoad() {
+        console.log(modified_foods_ids)
         if (modified_foods_ids.includes(food.id)) {
             const count = countOccurrences(modified_foods_ids, food.id)
             setItemCount(count)
@@ -63,7 +62,9 @@ export default function FoodCheckBoxItem({ food, foodIds = [], showModal, setFoo
 
 
     }
-
+    useEffect(() => {
+        onLoad()
+    }, [])
     return (
         <div className={classes.item_container}>
             {/* <FormControlLabel
