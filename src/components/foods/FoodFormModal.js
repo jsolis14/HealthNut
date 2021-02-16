@@ -71,7 +71,6 @@ export default function SimpleModal() {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <FoodForm handleClose={handleClose} />
-
                     </div>
                 </Fade>
             </Modal>

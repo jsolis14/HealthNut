@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import NavigateNext from '@material-ui/icons/NavigateNext'
 import NavigateBefore from '@material-ui/icons/NavigateBefore'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -7,12 +7,10 @@ import { actions } from '../../store/calorieTracker';
 import { thunks as mealThunks } from '../../store/meals';
 import { thunks as calorieTrackerThunks } from '../../store/calorieTracker';
 import { useAuth0 } from '../../react-auth0-spa';
-
 import DailyOverView from './DailyOverView';
-import AddButton from './AddButton';
 import MealGrid from './MealGrid';
 import WeightTracker from '../weightTracker/WeightTracker';
-import UpdateWeightTracker from '../weightTracker/UpdateWeightTracker';
+
 const useStyles = makeStyles((theme) => ({
     calendar_bar: {
         display: 'flex',
@@ -29,10 +27,7 @@ export default function CalorieTracker() {
     const classes = useStyles();
     const date = useSelector((state) => state.calorieTracker.selectedDate);
     const meals = useSelector((state) => state.meals.meals);
-
     const dispatch = useDispatch()
-
-    const [showAddFood, setShowAddFood] = useState(false);
     const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const { user, getTokenSilently } = useAuth0();
 
@@ -43,8 +38,6 @@ export default function CalorieTracker() {
         if (meals.length === 0) {
             getUserMeals()
         }
-
-        // calculateTotalCal()
     }, [date])
 
     async function getUserMeals() {
@@ -57,13 +50,6 @@ export default function CalorieTracker() {
 
         const userId = user.id
         dispatch(calorieTrackerThunks.updateFoods(token, userId))
-    }
-
-    async function getMealsByDay() {
-        const token = await getTokenSilently();
-
-        const userId = user.id
-        dispatch(calorieTrackerThunks.updateMeals(token, userId))
     }
 
     async function nextDate() {
@@ -88,10 +74,7 @@ export default function CalorieTracker() {
                 <DailyOverView />
                 <WeightTracker />
             </div>
-
             <MealGrid />
-            {/* <AddButton setShowAddFood={setShowAddFood} /> */}
-            {}
         </>
     )
 }

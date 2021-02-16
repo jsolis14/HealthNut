@@ -11,8 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions } from '../../store/profile';
 
 function ActivityInfo({ activityFactor, setActivityFactor, step, setStep }) {
-    // const dispatch = useDispatch();
-    // const activityFactor = useSelector((state) => state.profileInfo.activityFactor);
     const [error, setError] = useState('')
     function handleNext() {
         if (!activityFactor) {

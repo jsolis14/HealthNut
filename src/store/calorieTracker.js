@@ -65,6 +65,10 @@ export const actions = {
     setTotalCarbs,
     setTotalFat,
     setTotalProtein,
+    addBreakfastMeals,
+    addLunchMeals,
+    addDinnerMeals,
+    addSnackMeals
 };
 
 const updateMeals = (token, userId) => {
@@ -74,7 +78,6 @@ const updateMeals = (token, userId) => {
         let total_carbs = getState().calorieTracker.total_carbs;
         let total_protein = getState().calorieTracker.total_protein;
         let total_fat = getState().calorieTracker.total_protein;
-
 
         const res = await fetch(`${api}/calorie-tracker/user/${userId}/meals`, {
             method: 'PATCH',
@@ -160,7 +163,6 @@ const updateFoods = (token, userId) => {
                 dispatch(setLunchIds(food.lunch_foods_ids))
                 dispatch(setDinnerIds(food.dinner_foods_ids))
                 dispatch(setSnackIds(food.snack_foods_ids))
-                // dispatch(setCalorieTrackerFoods(foods))
 
                 food.breakfast_foods.forEach(food => {
                     total_cal += food.food.total_cal * food.servings
@@ -192,7 +194,6 @@ const updateFoods = (token, userId) => {
 
                 dispatch(setTotalCarbs(total_carbs))
                 dispatch(setTotalFat(total_fat))
-
                 dispatch(setTotalCal(total_cal))
                 dispatch(setTotalProtein(total_protein))
                 dispatch(updateMeals(token, userId))
@@ -246,9 +247,8 @@ const addFoods = (token, body) => {
                     new_foods_fat += food.food.total_fat * food.servings
                 })
 
-
-                if (body.from === 'breakfast') {
-                    breakfast_foods.forEach(food => {
+                function calculateNutritionalInfo(foods) {
+                    foods.forEach(food => {
                         prev_foods_cal += food.food.total_cal * food.servings
                         prev_foods_carbs += food.food.total_carbs * food.servings
                         prev_foods_fat += food.food.total_fat * food.servings
@@ -259,72 +259,29 @@ const addFoods = (token, body) => {
                     new_total_fat = prev_fat - prev_foods_fat + new_foods_fat;
                     new_total_protein = prev_protein - prev_foods_protein + new_foods_protein;
                     new_total_carbs = prev_carbs - prev_foods_carbs + new_foods_carbs;
+                }
 
-                    debugger;
-                    dispatch(setTotalCal(new_total_cal))
-                    dispatch(setTotalFat(new_total_fat))
-                    dispatch(setTotalProtein(new_total_protein))
-                    dispatch(setTotalCarbs(new_total_carbs))
+                if (body.from === 'breakfast') {
+                    calculateNutritionalInfo(breakfast_foods)
                     dispatch(setBreakfastFoods(foods.foods))
                     dispatch(setBreakfastIds(foods.food_ids))
                 } else if (body.from === 'lunch') {
-                    lunch_foods.forEach(food => {
-                        prev_foods_cal += food.food.total_cal * food.servings
-                        prev_foods_carbs += food.food.total_carbs * food.servings
-                        prev_foods_fat += food.food.total_fat * food.servings
-                        prev_foods_protein += food.food.protein * food.servings
-                    })
-                    new_total_cal = prev_cal - prev_foods_cal + new_foods_cal;
-                    new_total_cal = prev_cal - prev_foods_cal + new_foods_cal;
-                    new_total_fat = prev_fat - prev_foods_fat + new_foods_fat;
-                    new_total_protein = prev_protein - prev_foods_protein + new_foods_protein;
-                    new_total_carbs = prev_carbs - prev_foods_carbs + new_foods_carbs;
-
-                    dispatch(setTotalCal(new_total_cal))
-                    dispatch(setTotalFat(new_total_fat))
-                    dispatch(setTotalProtein(new_total_protein))
-                    dispatch(setTotalCarbs(new_total_carbs))
+                    calculateNutritionalInfo(lunch_foods)
                     dispatch(setLunchFoods(foods.foods))
                     dispatch(setLunchIds(foods.food_ids))
                 } else if (body.from === 'dinner') {
-                    dinner_foods.forEach(food => {
-                        prev_foods_cal += food.food.total_cal * food.servings
-                        prev_foods_carbs += food.food.total_carbs * food.servings
-                        prev_foods_fat += food.food.total_fat * food.servings
-                        prev_foods_protein += food.food.protein * food.servings
-                    })
-                    new_total_cal = prev_cal - prev_foods_cal + new_foods_cal;
-                    new_total_cal = prev_cal - prev_foods_cal + new_foods_cal;
-                    new_total_fat = prev_fat - prev_foods_fat + new_foods_fat;
-                    new_total_protein = prev_protein - prev_foods_protein + new_foods_protein;
-                    new_total_carbs = prev_carbs - prev_foods_carbs + new_foods_carbs;
-
-                    dispatch(setTotalCal(new_total_cal))
-                    dispatch(setTotalFat(new_total_fat))
-                    dispatch(setTotalProtein(new_total_protein))
-                    dispatch(setTotalCarbs(new_total_carbs))
+                    calculateNutritionalInfo(dinner_foods)
                     dispatch(setDinnerFoods(foods.foods))
                     dispatch(setDinnerIds(foods.food_ids))
                 } else if (body.from === 'snack') {
-                    snack_foods.forEach(food => {
-                        prev_foods_cal += food.food.total_cal * food.servings
-                        prev_foods_carbs += food.food.total_carbs * food.servings
-                        prev_foods_fat += food.food.total_fat * food.servings
-                        prev_foods_protein += food.food.protein * food.servings
-                    })
-                    new_total_cal = prev_cal - prev_foods_cal + new_foods_cal;
-                    new_total_cal = prev_cal - prev_foods_cal + new_foods_cal;
-                    new_total_fat = prev_fat - prev_foods_fat + new_foods_fat;
-                    new_total_protein = prev_protein - prev_foods_protein + new_foods_protein;
-                    new_total_carbs = prev_carbs - prev_foods_carbs + new_foods_carbs;
-
-                    dispatch(setTotalCal(new_total_cal))
-                    dispatch(setTotalFat(new_total_fat))
-                    dispatch(setTotalProtein(new_total_protein))
-                    dispatch(setTotalCarbs(new_total_carbs))
+                    calculateNutritionalInfo(snack_foods)
                     dispatch(setSnackFoods(foods.foods))
                     dispatch(setSnackIds(foods.food_ids))
                 }
+                dispatch(setTotalCal(new_total_cal))
+                dispatch(setTotalFat(new_total_fat))
+                dispatch(setTotalProtein(new_total_protein))
+                dispatch(setTotalCarbs(new_total_carbs))
             }
         } catch (e) {
 

@@ -50,8 +50,6 @@ function ProfileMenu() {
                 open={open}
                 onClose={handleClose}
             >
-                {/* <MenuItem >Profile</MenuItem>
-                <MenuItem >My account</MenuItem> */}
                 <MenuItem onClick={() => logout()}>Logout</MenuItem>
             </Menu>
         </div>

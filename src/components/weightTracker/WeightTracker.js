@@ -63,7 +63,6 @@ export default function WeightTracker() {
     const [weight, setWeight] = useState('')
     const [showForm, setShowForm] = useState(true)
     const { user, getTokenSilently } = useAuth0();
-    const theme = useTheme();
     const date = useSelector((state) => state.calorieTracker.selectedDate);
 
     useEffect(() => {

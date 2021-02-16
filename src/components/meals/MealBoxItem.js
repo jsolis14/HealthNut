@@ -27,9 +27,16 @@ export default function MealBoxItem({ food, setMealArray, mealArray }) {
         setMealArray([...mealArray, food.id])
     }
 
+    function removeItem(item, array) {
+        const index = array.indexOf(item)
+        const remainingItems = [...array.slice(0, index), ...array.slice(index + 1, array.length)]
+        return remainingItems
+    }
+
     function removeServing() {
         if (count > 0) {
             setCount(count - 1)
+            setMealArray(removeItem(food.id, mealArray))
         }
 
     }

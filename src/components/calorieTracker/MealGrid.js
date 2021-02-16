@@ -3,8 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import EditIcon from '@material-ui/icons/Edit';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import AddIcon from '@material-ui/icons/Add';
@@ -13,7 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import AddFoodModal from './AddFoodModal';
 import FoodItem from './FoodItem';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import AddMealModal from './AddMealModal';
 import AcordianMealItem from '../meals/AcordianMealItem';
 const useStyles = makeStyles((theme) => ({
@@ -24,8 +22,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         display: 'flex',
         justifyContent: 'space-between',
-        // textAlign: 'center',
-        // color: theme.palette.text.secondary,
     },
     meal_container: {
         display: 'flex',
@@ -69,14 +65,6 @@ export default function MealGrid() {
     const lunchMeals = useSelector((state) => state.calorieTracker.lunchMeals);
     const dinnerMeals = useSelector((state) => state.calorieTracker.dinnerMeals);
     const snackMeals = useSelector((state) => state.calorieTracker.snackMeals);
-
-    const handleClose = () => {
-        setAnchorElBreakfast(null);
-    };
-
-    // function handleAddFood() {
-    //     setShowModal({show:true, from})
-    // }
 
     return (
         <div>

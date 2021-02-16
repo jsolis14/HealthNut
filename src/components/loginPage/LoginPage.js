@@ -70,7 +70,6 @@ export default function LoginPage() {
                     </div>
                 </div>
             </div>
-
             <Features />
             <div className={classes.contact_me_container}>
                 <Typography variant='h6'>Find me at:</Typography>

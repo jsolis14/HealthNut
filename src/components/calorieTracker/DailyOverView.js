@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from "react-redux";
 import ProgressBar from '../ProgressBar/ProgressBar';
 import Paper from '@material-ui/core/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -70,25 +70,15 @@ export default function DailyOverView() {
     const [recCarbs, setRecCarbs] = useState(0)
     const [recProtein, setRecProtein] = useState(0)
     const [recFat, setRecFat] = useState(0)
+
     useEffect(() => {
         if (calorieLimit) {
+            // calorieLimit * recommendedPercentage / calories per
             setRecCarbs(Math.ceil((calorieLimit * .55) / 4))
             setRecFat(Math.ceil((calorieLimit * .25) / 9))
             setRecProtein(Math.ceil((calorieLimit * .20) / 4))
         }
-        // setDailyCalorieTotal(total_cal / calorieLimit)
     })
-
-    // function calculateNutritionGoals(){
-    //     // 55 carbs
-    //     // 20 protein
-    //     // 25 fat
-
-    //     const rec_carbs =  ;
-    //     const rec_protein = ;
-    //     const rec_fat =
-
-    // }
 
     function getText(total, rec) {
         const diff = rec - total;

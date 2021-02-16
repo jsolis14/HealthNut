@@ -11,16 +11,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-import FormGroup from '@material-ui/core/FormGroup';
-
 import Button from '@material-ui/core/Button';
-
-
 import { useDispatch, useSelector } from "react-redux";
-import { thunks } from '../../store/foods';
+
 import { thunks as calorieTrackerThunks, actions } from '../../store/calorieTracker'
 import { useAuth0 } from '../../react-auth0-spa';
-import FoodCheckBoxItem from './FoodCheckBoxItem';
+
 import { actions as calorieTrackerActions } from '../../store/calorieTracker';
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -88,14 +84,15 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
 
         if (meal[1] === 200) {
             //dispatch
+            console.log(meal[0])
             if (body.from === 'breakfast') {
-                dispatch(calorieTrackerActions.setBreakfastMeals([meal[0]]))
+                dispatch(calorieTrackerActions.addBreakfastMeals(meal[0]))
             } else if (body.from === 'lunch') {
-                dispatch(calorieTrackerActions.setLunchMeals([meal[0]]))
+                dispatch(calorieTrackerActions.addLunchMeals(meal[0]))
             } else if (body.from === 'dinner') {
-                dispatch(calorieTrackerActions.setDinnerMeals([meal[0]]))
+                dispatch(calorieTrackerActions.addDinnerMeals(meal[0]))
             } else if (body.from === 'snack') {
-                dispatch(calorieTrackerActions.setSnackMeals([meal[0]]))
+                dispatch(calorieTrackerActions.addSnackMeals(meal[0]))
             }
 
             total_cal += meal[0].total_cal

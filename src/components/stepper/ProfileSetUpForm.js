@@ -6,7 +6,6 @@ import CaloriePreview from './CaloriePreview';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from "../../react-auth0-spa";
 import { makeStyles } from '@material-ui/core/styles';
-import { actions } from '../../store/profile';
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCalorieLimit, calculateBMR, calculateDailyCalorieNeeds } from '../../tools';
 import { api } from '../../config';
@@ -31,7 +30,6 @@ export default function ProfileSetUpForm() {
     const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
     const calorieNeeds = useSelector((state) => state.profileInfo.calorieNeeds);
     const { user, getTokenSilently } = useAuth0();
-    const dispatch = useDispatch();
 
     async function handleFinish() {
 
@@ -53,10 +51,6 @@ export default function ProfileSetUpForm() {
             calorieLimit
         }
 
-        function handlePrev() {
-            setStep(step - 1)
-        }
-
         const token = await getTokenSilently();
         const res = await fetch(`${api}/users/updateinfo`, {
             method: "POST",
@@ -68,7 +62,6 @@ export default function ProfileSetUpForm() {
         })
 
         if (res.ok) {
-
             window.location.href = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/foods' : 'https://master.d2v8iaichtof5r.amplifyapp.com/index.html'
         }
     }
@@ -125,8 +118,7 @@ export default function ProfileSetUpForm() {
         const calorieLimit = parseInt(calculateCalorieLimit(calorieNeeds, fitnessPlan))
         const percentage = calorieLimit / calorieNeeds
 
-        // dispatch(actions.setCalorieLimit(calorieLimit))
-        // dispatch(actions.setCalorieNeeds(calorieNeeds))
+
 
         return (
             <div className={classes.form_container}>

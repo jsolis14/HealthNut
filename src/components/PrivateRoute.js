@@ -5,18 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 const PrivateRoute = ({ component: Component, path, calorieLimit, calorieNeeds, ...rest }) => {
     const { loading, isAuthenticated, loginWithRedirect } = useAuth0();
-    // const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
-    // const calorieNeeds = useSelector((state) => state.profileInfo.caloriNeeds);
     useEffect(() => {
         if (loading || isAuthenticated) {
-
             return;
         }
         const fn = async () => {
             await loginWithRedirect({
                 appState: { targetUrl: window.location.pathname }
             });
-            console.log(window.location.pathname)
         };
         fn();
     }, [loading, isAuthenticated, loginWithRedirect, path]);

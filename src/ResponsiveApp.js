@@ -22,7 +22,7 @@ import NoteIcon from '@material-ui/icons/Note';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { useAuth0 } from './react-auth0-spa';
-import { Router, Route, Switch, Link, Redirect } from "react-router-dom";
+import { Router, Route, Switch, Link } from "react-router-dom";
 import Profile from "./components/Profile";
 import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
@@ -84,7 +84,7 @@ function ResponsiveDrawer(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
-    const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+    const { isAuthenticated, loginWithRedirect } = useAuth0();
     const calorieLimit = useSelector((state) => state.profileInfo.calorieLimit);
     const calorieNeeds = useSelector((state) => state.profileInfo.calorieNeeds);
 
