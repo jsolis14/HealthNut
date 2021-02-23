@@ -17,6 +17,14 @@ const useStyles = makeStyles((theme) => ({
     },
     input: {
         width: '100%'
+    },
+    input_half: {
+        width: '100px'
+    },
+    input_duo: {
+        width: '250px',
+        display: 'flex',
+        justifyContent: 'space-between'
     }
 }));
 
@@ -51,19 +59,37 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
     return (
         <>
             {error ? <Alert severity="error">{error}</Alert> : <></>}
-            <div className={classes.input_container}>
-                <Input
-                    id="standard-adornment-height"
-                    className={classes.input}
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                    endAdornment={<InputAdornment position="end">Ex 6.1</InputAdornment>}
-                    aria-describedby="standard-height-helper-text"
-                    inputProps={{
-                        'aria-label': 'height',
-                    }}
-                />
-                <FormHelperText id="standard-height-helper-text">Height</FormHelperText>
+            <div className={classes.input_duo}>
+                <div>
+                    <Input
+                        id="standard-adornment-height"
+                        className={classes.input_half}
+                        value={height}
+                        onChange={(e) => setHeight(e.target.value)}
+                        endAdornment={<InputAdornment position="end">'</InputAdornment>}
+                        aria-describedby="standard-height-helper-text"
+                        inputProps={{
+                            'aria-label': 'feet',
+                        }}
+                    />
+                    <FormHelperText id="standard-height-helper-text">Feet</FormHelperText>
+                </div>
+                <div>
+                    <Input
+                        id="standard-adornment-height"
+                        className={classes.input_half}
+                        value={height}
+                        onChange={(e) => setHeight(e.target.value)}
+                        endAdornment={<InputAdornment position="end">"</InputAdornment>}
+                        aria-describedby="standard-height-helper-text"
+                        inputProps={{
+                            'aria-label': 'inches',
+                        }}
+                    />
+                    <FormHelperText id="standard-height-helper-text">Inches</FormHelperText>
+                </div>
+
+
             </div>
             <div className={classes.input_container}>
                 <Input
