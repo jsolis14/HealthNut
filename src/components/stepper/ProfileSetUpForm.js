@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ProfileSetUpForm() {
     const classes = useStyles();
     const [step, setStep] = useState(1);
-    const [height, setHeight] = useState('');
+    const [feet, setFeet] = useState('');
+    const [inches, setInches] = useState('')
     const [weight, setWeight] = useState('');
     const [age, setAge] = useState('');
     const [gender, setGender] = useState(null);
@@ -32,8 +33,7 @@ export default function ProfileSetUpForm() {
     const { user, getTokenSilently } = useAuth0();
 
     async function handleFinish() {
-
-
+        const height = parseFloat(feet + '.' + inches)
         const bmr = calculateBMR(gender, weight, height, age)
         const calorieNeeds = parseInt(calculateDailyCalorieNeeds(bmr, activityFactor))
         const calorieLimit = parseInt(calculateCalorieLimit(calorieNeeds, fitnessPlan))
@@ -73,11 +73,12 @@ export default function ProfileSetUpForm() {
             <div className={classes.form_container}>
                 <ProfileInformation
                     nextStep={step}
-                    values={height, weight, age, gender}
                     age={age}
                     setAge={setAge}
-                    height={height}
-                    setHeight={setHeight}
+                    feet={feet}
+                    setFeet={setFeet}
+                    inches={inches}
+                    setInches={setInches}
                     weight={weight}
                     setWeight={setWeight}
                     gender={gender}
@@ -113,6 +114,8 @@ export default function ProfileSetUpForm() {
 
         )
     } else if (step === 4) {
+        const height = feet + '.' + inches
+        console.log(height)
         const bmr = calculateBMR(gender, weight, height, age)
         const calorieNeeds = parseInt(calculateDailyCalorieNeeds(bmr, activityFactor))
         const calorieLimit = parseInt(calculateCalorieLimit(calorieNeeds, fitnessPlan))

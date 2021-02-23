@@ -28,17 +28,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ProfileInformation({ age, weight, height, gender, setHeight, setAge, setGender, setWeight, setStep, step }) {
+function ProfileInformation({ age, weight, feet, inches, gender, setFeet, setInches, setAge, setGender, setWeight, setStep, step }) {
     const [error, setError] = useState('')
     const classes = useStyles();
     function handleNext() {
         setError('')
 
-        const heightArr = height.split('.');
-        const inches = heightArr[1];
-
-        if (heightArr.length === 1 || height === '' || inches > 11 || inches < 0) {
-            setError(['Please enter a valid height in the form of "6.0" for 6 feet 0 inches'])
+        if (inches === '' || feet === '' || inches > 11 || inches < 0 || feet < 0) {
+            setError(['Please enter a valid value for feet and inches'])
             return
         }
         if (!age || age <= 0) {
@@ -62,10 +59,10 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
             <div className={classes.input_duo}>
                 <div>
                     <Input
-                        id="standard-adornment-height"
+                        id="standard-adornment-feet"
                         className={classes.input_half}
-                        value={height}
-                        onChange={(e) => setHeight(e.target.value)}
+                        value={feet}
+                        onChange={(e) => setFeet(e.target.value)}
                         endAdornment={<InputAdornment position="end">'</InputAdornment>}
                         aria-describedby="standard-height-helper-text"
                         inputProps={{
@@ -76,10 +73,10 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
                 </div>
                 <div>
                     <Input
-                        id="standard-adornment-height"
+                        id="standard-adornment-inches"
                         className={classes.input_half}
-                        value={height}
-                        onChange={(e) => setHeight(e.target.value)}
+                        value={inches}
+                        onChange={(e) => setInches(e.target.value)}
                         endAdornment={<InputAdornment position="end">"</InputAdornment>}
                         aria-describedby="standard-height-helper-text"
                         inputProps={{
