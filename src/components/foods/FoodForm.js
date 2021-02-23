@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import { api } from '../../config';
 import { useAuth0 } from '../../react-auth0-spa';
 import { actions } from '../../store/foods';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Alert from '@material-ui/lab/Alert';
 const useStyles = makeStyles((theme) => ({
     root: {

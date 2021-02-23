@@ -9,18 +9,24 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { useDispatch, useSelector } from "react-redux";
-import { actions } from '../../store/profile';
+const useStyles = makeStyles((theme) => ({
+    input_container: {
+        width: '250px'
+    },
+    input: {
+        width: '100%'
+    }
+}));
 
 function ProfileInformation({ age, weight, height, gender, setHeight, setAge, setGender, setWeight, setStep, step }) {
     const [error, setError] = useState('')
-
+    const classes = useStyles();
     function handleNext() {
         setError('')
 
         const heightArr = height.split('.');
-        const feet = heightArr[0];
         const inches = heightArr[1];
 
         if (heightArr.length === 1 || height === '' || inches > 11 || inches < 0) {
@@ -45,9 +51,10 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
     return (
         <>
             {error ? <Alert severity="error">{error}</Alert> : <></>}
-            <div>
+            <div className={classes.input_container}>
                 <Input
                     id="standard-adornment-height"
+                    className={classes.input}
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
                     endAdornment={<InputAdornment position="end">Ex 6.1</InputAdornment>}
@@ -58,9 +65,10 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
                 />
                 <FormHelperText id="standard-height-helper-text">Height</FormHelperText>
             </div>
-            <div>
+            <div className={classes.input_container}>
                 <Input
                     id="standard-adornment-weight"
+                    className={classes.input}
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
                     endAdornment={<InputAdornment position="end">lbs</InputAdornment>}
@@ -71,9 +79,10 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
                 />
                 <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText>
             </div>
-            <div>
+            <div className={classes.input_container}>
                 <Input
                     id="standard-adornment-age"
+                    className={classes.input}
                     value={age}
                     onChange={(e) => setAge(parseInt(e.target.value))}
                     endAdornment={<InputAdornment position="end">Years</InputAdornment>}
@@ -84,7 +93,7 @@ function ProfileInformation({ age, weight, height, gender, setHeight, setAge, se
                 />
                 <FormHelperText id="standard-age-helper-text">Age</FormHelperText>
             </div>
-            <div>
+            <div >
                 <FormControl component="fieldset">
                     <FormLabel component="legend">Gender</FormLabel>
                     <RadioGroup aria-label="gender" name="gender1" value={gender} onChange={(e) => setGender(e.target.value)}>

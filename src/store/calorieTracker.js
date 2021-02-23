@@ -96,28 +96,28 @@ const updateMeals = (token, userId) => {
             dispatch(setDinnerMeals(meals[0].dinner_meals))
             dispatch(setSnackMeals(meals[0].snack_meals))
 
-            meals[0].breakfast_meals.map(meal => {
+            meals[0].breakfast_meals.forEach(meal => {
                 total_cal += meal.total_cal
                 total_fat += meal.total_fat
                 total_carbs += meal.total_carbs
                 total_protein += meal.total_protein
             })
 
-            meals[0].lunch_meals.map(meal => {
+            meals[0].lunch_meals.forEach(meal => {
                 total_cal += meal.total_cal
                 total_fat += meal.total_fat
                 total_carbs += meal.total_carbs
                 total_protein += meal.total_protein
             })
 
-            meals[0].dinner_meals.map(meal => {
+            meals[0].dinner_meals.forEach(meal => {
                 total_cal += meal.total_cal
                 total_fat += meal.total_fat
                 total_carbs += meal.total_carbs
                 total_protein += meal.total_protein
             })
 
-            meals[0].snack_meals.map(meal => {
+            meals[0].snack_meals.forEach(meal => {
                 total_cal += meal.total_cal
                 total_fat += meal.total_fat
                 total_carbs += meal.total_carbs

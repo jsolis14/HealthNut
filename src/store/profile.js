@@ -1,5 +1,3 @@
-import { api } from "../config";
-
 const SET_AGE = 'SETAGE';
 const SET_HEIGHT = 'SET_HEIGHT';
 const SET_WEIGHT = 'SET_WEIGHT';
@@ -34,12 +32,6 @@ export const actions = {
 
 const getUserInfo = (calorieLimit, calorieNeeds) => {
     return async (dispatch, getState) => {
-        // dispatch(setAge())
-        // dispatch(setWeight())
-        // dispatch(setHeight())
-        // dispatch(setGender())
-        // dispatch(setActivityFactor())
-        // dispatch(setFitnessPlan())
         dispatch(setCalorieLimit(calorieLimit))
         dispatch(setCalorieNeeds(calorieNeeds))
     };

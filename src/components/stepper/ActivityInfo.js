@@ -7,9 +7,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
 
-import { useDispatch, useSelector } from "react-redux";
-import { actions } from '../../store/profile';
-
 function ActivityInfo({ activityFactor, setActivityFactor, step, setStep }) {
     const [error, setError] = useState('')
     function handleNext() {

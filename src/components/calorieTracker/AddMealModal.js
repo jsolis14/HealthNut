@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { api } from "../../config";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -10,14 +10,12 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from "react-redux";
-
-import { thunks as calorieTrackerThunks, actions } from '../../store/calorieTracker'
+import { thunks as actions } from '../../store/calorieTracker'
 import { useAuth0 } from '../../react-auth0-spa';
-
 import { actions as calorieTrackerActions } from '../../store/calorieTracker';
+
 const useStyles = makeStyles((theme) => ({
     modal: {
         display: 'flex',
@@ -61,8 +59,6 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
     }
 
     async function onSubmit() {
-        const foodIdsStr = value.split(',')
-        const food_ids = foodIdsStr.map(id => parseInt(id))
         const token = await getTokenSilently()
 
         const body = {
@@ -100,10 +96,10 @@ export default function AddMealModal({ showMealModal, setShowMealModal }) {
             total_fat += meal[0].total_fat
             total_protein += meal[0].total_protein
 
-            dispatch(actions.setTotalCal(total_cal))
-            dispatch(actions.setTotalCarbs(total_carbs))
-            dispatch(actions.setTotalFat(total_fat))
-            dispatch(actions.setTotalProtein(total_protein))
+            dispatch(calorieTrackerActions.setTotalCal(total_cal))
+            dispatch(calorieTrackerActions.setTotalCarbs(total_carbs))
+            dispatch(calorieTrackerActions.setTotalFat(total_fat))
+            dispatch(calorieTrackerActions.setTotalProtein(total_protein))
             setShowMealModal({ from: '', show: false })
         } else {
             setErrors(meal[0])

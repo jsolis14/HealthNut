@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -33,7 +33,7 @@ import CalorieTracker from './components/calorieTracker/CalorieTracker';
 import Meals from './components/meals/Meals';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './components/loginPage/LoginPage';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import HomeRoute from './components/HomeRoute';
 const drawerWidth = 240;
 
@@ -146,7 +146,7 @@ function ResponsiveDrawer(props) {
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+
                 <Hidden smUp implementation="css">
                     <Drawer
                         container={container}
@@ -179,7 +179,6 @@ function ResponsiveDrawer(props) {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <div>
-
                     <Router history={history}>
                         <Switch>
                             <HomeRoute path="/" exact />

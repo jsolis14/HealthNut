@@ -1,18 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth0 } from '../../react-auth0-spa';
-
-
 import IconButton from '@material-ui/core/IconButton';
-
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 function ProfileMenu() {
-    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
-
-    const [auth, setAuth] = React.useState(true);
+    const { logout } = useAuth0();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 

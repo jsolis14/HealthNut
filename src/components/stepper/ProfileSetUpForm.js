@@ -6,7 +6,7 @@ import CaloriePreview from './CaloriePreview';
 import Button from '@material-ui/core/Button';
 import { useAuth0 } from "../../react-auth0-spa";
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { calculateCalorieLimit, calculateBMR, calculateDailyCalorieNeeds } from '../../tools';
 import { api } from '../../config';
 import { Redirect } from "react-router-dom";
