@@ -6,8 +6,18 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    button_container: {
+        width: '175px',
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignSelf: 'flex-end'
+    }
+}));
 function ActivityInfo({ activityFactor, setActivityFactor, step, setStep }) {
+    const classes = useStyles();
     const [error, setError] = useState('')
     function handleNext() {
         if (!activityFactor) {
@@ -33,15 +43,16 @@ function ActivityInfo({ activityFactor, setActivityFactor, step, setStep }) {
                     <FormControlLabel value={"1.725"} control={<Radio />} label="very active (hard exercise/sports 6-7 days a week)" />
                     <FormControlLabel value={"1.9"} control={<Radio />} label="extra active (very hard exercise/sports & physical job or 2x training)" />
                 </RadioGroup>
+                <div className={classes.button_container}>
+                    <Button variant="contained" onClick={handlePrev}>
+                        Prev
+            </Button>
+                    <Button variant="contained" color="primary" onClick={handleNext}>
+                        Next
+            </Button>
+                </div>
             </FormControl >
-            <div>
-                <Button variant="contained" onClick={handlePrev}>
-                    Prev
-            </Button>
-                <Button variant="contained" color="primary" onClick={handleNext}>
-                    Next
-            </Button>
-            </div>
+
 
         </>
     )

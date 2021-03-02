@@ -15,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+    },
+    button_container: {
+        width: '175px',
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignSelf: 'center'
     }
 }));
 
@@ -33,7 +39,8 @@ export default function ProfileSetUpForm() {
     const { user, getTokenSilently } = useAuth0();
 
     async function handleFinish() {
-        const height = parseFloat(feet + '.' + inches)
+        const height = feet + '.' + inches
+        console.log(height, 'hello')
         const bmr = calculateBMR(gender, weight, height, age)
         const calorieNeeds = parseInt(calculateDailyCalorieNeeds(bmr, activityFactor))
         const calorieLimit = parseInt(calculateCalorieLimit(calorieNeeds, fitnessPlan))
@@ -115,7 +122,7 @@ export default function ProfileSetUpForm() {
         )
     } else if (step === 4) {
         const height = feet + '.' + inches
-        console.log(height)
+        console.log(height, 'hello')
         const bmr = calculateBMR(gender, weight, height, age)
         const calorieNeeds = parseInt(calculateDailyCalorieNeeds(bmr, activityFactor))
         const calorieLimit = parseInt(calculateCalorieLimit(calorieNeeds, fitnessPlan))
@@ -132,7 +139,7 @@ export default function ProfileSetUpForm() {
                     calorieNeeds={calorieNeeds}
                     percentage={percentage}
                 />
-                <div>
+                <div className={classes.button_container}>
                     <Button variant="contained" onClick={() => setStep(step - 1)}>
                         Prev
                     </Button>

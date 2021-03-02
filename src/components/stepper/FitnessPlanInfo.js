@@ -6,10 +6,19 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    button_container: {
+        width: '175px',
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignSelf: 'flex-end'
+    }
+}));
 export default function FitnessPlanInfo({ fitnessPlan, setFitnessPlan, step, setStep }) {
     const [error, setError] = useState('')
-
+    const classes = useStyles();
     function handleNext() {
         if (!fitnessPlan) {
             setError('Please select a fitness plan')
@@ -34,15 +43,16 @@ export default function FitnessPlanInfo({ fitnessPlan, setFitnessPlan, step, set
                     <FormControlLabel value="gain" control={<Radio />} label="Gain Weight (1/lb week)" />
 
                 </RadioGroup>
+                <div className={classes.button_container}>
+                    <Button variant="contained" onClick={handlePrev}>
+                        Prev
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={handleNext}>
+                        Next
+                    </Button>
+                </div>
             </FormControl>
-            <div>
-                <Button variant="contained" onClick={handlePrev}>
-                    Prev
-                </Button>
-                <Button variant="contained" color="primary" onClick={handleNext}>
-                    Next
-                </Button>
-            </div>
+
 
         </>
     );
